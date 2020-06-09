@@ -1,3 +1,11 @@
+Notes from Ritik:
+- Make sure you update npm/node (my npm is 6.14.4 and node is 12.16.1). Run 'npm install' to make sure you have the right node_modules
+- If you want to add a new screen, make sure to add a route to it in App.js and look at the Login/Register screens for an example for how to link to it using react-router-dom
+- Leave the top (ugly) bar for easily navigating between pages
+- focus on modularity for react --> if you can break something up into components do it and pass params back and forth
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
