@@ -1,8 +1,14 @@
 import React from 'react';
+import Dancer from '../components/Dancer';
 
+function DragDrop(props) {
 
-export default function DragDropScreen() {
-    return (
-        <h1>TEST</h1>
-    )
+  // some node ref error that creates an error in the console
+
+  return <div>
+    <Dancer x="100" y="100"/>
+    <Dancer x="300" y="100"/>
+  </div>;
 }
+
+export default DragDrop;
