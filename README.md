@@ -3,6 +3,7 @@ Notes from Ritik:
 - If you want to add a new screen, make sure to add a route to it in App.js and look at the Login/Register screens for an example for how to link to it using react-router-dom
 - Leave the top (ugly) bar for easily navigating between pages
 - focus on modularity for react --> if you can break something up into components do it and pass params back and forth
+- Try to do PURE or CLASS programming instead of FUNCTIONAL programming (look up https://medium.com/@Zwenza/functional-vs-class-components-in-react-231e3fbd7108#:~:text=The%20most%20obvious%20one%20difference,which%20returns%20a%20React%20element.) it's just more modern and more commonly used today (also more modular <3)
 
 
 

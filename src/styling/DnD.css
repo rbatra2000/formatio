@@ -1,0 +1,13 @@
+.container {
+    background-color: lightcyan;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin: auto;
+}
+
+.cell {
+    background-color: lightgreen;
+    position: relative;
+}
