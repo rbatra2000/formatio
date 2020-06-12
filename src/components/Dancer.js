@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
-import Draggable from 'react-draggable';
+import React, { useState, useEffect } from 'react';
+import { Rnd } from 'react-rnd';
 import '../styling/Dancer.css';
 
 
 function Dancer(props) {
-    const [xDel, setDelX] = useState(parseFloat(props.x));
-    const [yDel, setDelY] = useState(parseFloat(props.y));
+    const [x, setX] = useState(parseFloat(props.x));
+    const [y, setY] = useState(parseFloat(props.y));
     const name = props.name;
 
-    const handleDrag = (e, ui) => {
-        setDelX(xDel + ui.deltaX);
-        setDelY(yDel + ui.deltaY);
-    };
+
+    const update = (newX, newY) => {
+        setX(newX/window.innerWidth);
+        setY(newY/window.innerHeight);
+      }
 
     return (
-        <Draggable
-            handle=".handle"
-            defaultPosition={{ x: xDel, y: yDel }} // change starting position
-            position={null} // don't edit or you can't move them
-            grid={[200, 200]} // grid
-            scale={1}
-            onDrag={handleDrag}>
-            <div className="handle ball">
-                <div className="ballText">
-                    {name}<br></br>
-                    x:{xDel} y:{yDel}
-                </div>
+        <Rnd
+            position={{ x: x, y: y }}
+            size={{width: 50, height: 50}}
+            onDrag={(e, d) => { setX(d.x); setY(d.y) }}
+            dragGrid={[1,1]}
+            enableResizing={false}
+            bounds="parent"
+            className="ball"
+        >
+            <div className="ballText">
+            x:{x} y:{y}<hr/>{name}
             </div>
-        </Draggable>);
+        </Rnd>
+    );
 }
 
 export default Dancer;

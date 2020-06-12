@@ -1,10 +1,11 @@
 .container {
-    background-color: lightcyan;
+    background-color: blue;
     position: absolute;
     width: 100%;
     height: 100%;
     align-items: center;
     margin: auto;
+    position: relative;
 }
 
 .cell {
