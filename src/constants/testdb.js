@@ -1,7 +1,7 @@
 const db = [
     {
         "dancers": {
-            "ratan": {
+            "rohit": {
                 x: -0.50,
                 y: 2.50,
                 color: "#ff0000"
@@ -11,7 +11,7 @@ const db = [
                 y: 2.50,
                 color: "#ff0000"
             },
-            "riya": {
+            "maya": {
                 x: 0.00,
                 y: 2.00,
                 color: "gray"
@@ -21,7 +21,7 @@ const db = [
     },
     {
         "dancers": {
-            "ratan": {
+            "rohit": {
                 x: -0.50,
                 y: .5,
                 color: "lightgreen"
@@ -31,7 +31,7 @@ const db = [
                 y: .5,
                 color: "lightgreen"
             },
-            "riya": {
+            "maya": {
                 x: 0.00,
                 y: 0.00,
                 color: "green"
@@ -41,7 +41,7 @@ const db = [
     },
     {
         "dancers": {
-            "ratan": {
+            "rohit": {
                 x: 0.00,
                 y: 1.00,
                 color: "lightblue"
@@ -51,7 +51,7 @@ const db = [
                 y: 0.50,
                 color: "red"
             },
-            "riya": {
+            "maya": {
                 x: 0.00,
                 y: 1.50,
                 color: "lightblue"
@@ -61,7 +61,7 @@ const db = [
     },
     {
         "dancers": {
-            "ratan": {
+            "rohit": {
                 x: 0.50,
                 y: 1.50,
                 color: "pink"
@@ -71,7 +71,7 @@ const db = [
                 y: 1.50,
                 color: "pink"
             },
-            "riya": {
+            "maya": {
                 x: 0.00,
                 y: 1.50,
                 color: "green"
