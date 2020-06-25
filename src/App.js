@@ -7,16 +7,17 @@ import {
 } from "react-router-dom";
 import Login from './screens/LoginScreen';
 import Register from './screens/RegisterScreen';
-import DragDrop from './screens/DragDropScreen';
+import FormationScreen from './screens/FormationsScreen';
+import Store from "./constants/global";
 
 export default function App() {
   return (
     <Router>
-      <div>
-        <nav style={{backgroundColor: 'lightgray'}}>
+      <Store>
+        <nav style={{ backgroundColor: 'lightgray' }}>
           <ul>
             <li>
-              <Link to="/drag">Drag and Drop</Link>
+              <Link to="/drag">Formations</Link>
             </li>
             <li>
               <Link to="/register">Register</Link>
@@ -27,18 +28,18 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-        <Route path="/register">
+          <Route path="/register">
             <Register />
           </Route>
           <Route path="/drag">
-            <DragDrop />
+            <FormationScreen />
           </Route>
           <Route path="/">
             <Login />
           </Route>
 
         </Switch>
-      </div>
+      </Store>
     </Router>
   );
 }
