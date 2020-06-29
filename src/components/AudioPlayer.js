@@ -1,37 +1,60 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useImperativeHandle, forwardRef, useContext } from 'react'
 import Peaks from 'peaks.js';
-import { Button } from '@material-ui/core';
 import sound from "../assets/audio.mp3";
-import styled from 'styled-components';
+import { Context } from '../constants/global';
 
 // Add some sort of loading for the mp3 file loading!!
 
-const ButtonContainer = styled.div`
-  align-items: center;
-  text-align:center;
-  margin: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100px;
-  &:hover {
-    background-color: #5469d4;
-  }
-`;
-
-const AudioPlayer = () => {
-    const [play, setPlay] = useState("Play");
+const AudioPlayer = forwardRef((props, ref) => {
     const [instance, setInstance] = useState(null);
-    const [points, setPoints] = useState([]);
+    const [state, dispatch] = useContext(Context);
+    const [points, setPoints] = useState(state.starts);
+
+    useImperativeHandle(ref, () => ({
+        // On mac you can use the play button on keyboard which messes up the state for the button
+        playAudio() {
+            instance.player.play();
+        },
+
+        pauseAudio() {
+            instance.player.pause();
+        },
+
+        dropPoint() {
+            instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: '#FF0000' });
+            setPoints([...points, instance.player.getCurrentTime()]);
+        }
+    }));
+
+    function timeListener(time) {
+        const newTime = parseFloat(time.toFixed(1));
+        if (points.includes(newTime)) {
+            dispatch({ type: 'SET_FORMATION', num: points.indexOf(newTime) });
+        }
+    }
+
+    // the formations aren't showing up at first idk why
 
 
     useEffect(() => {
         // Run initially once
-        helper();
+        startFunction();
     }, []);
-    
 
-    const helper = () => {
+    useEffect(() => {
+        // Run after instance is initialized (needs to be once somehow)
+        if (instance != null) {
+            instance.on('player.timeupdate', timeListener);
+
+            for (var i = 0; i < points.length; i++) {
+                // Add non-editable point, with a Red color
+                instance.points.add({ time: points[i], labelText: ("Formation #" + i), id: i, color: "#FF0000" });
+            }
+            console.log(instance.points.getPoints());
+        }
+    }, [instance, points]);
+
+    const startFunction = () => {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioContext = new AudioContext();
 
@@ -56,24 +79,9 @@ const AudioPlayer = () => {
         }));
     }
 
+
     return (
         <div>
-            <ButtonContainer>
-                <StyledButton style={{marginRight: '10px'}} variant="contained" color="primary" onClick={() => {
-                    if (play === "Play") {
-                        setPlay("Pause");
-                        instance.player.play();
-                    } else {
-                        setPlay("Play");
-                        instance.player.pause();
-                    }
-                }}>{play}</StyledButton>
-                <StyledButton variant="contained" color="primary" onClick={() => {
-                    instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: '#FF0000' });
-                    setPoints([...points, instance.player.getCurrentTime()])
-                    
-                }}>Drop</StyledButton>
-            </ButtonContainer>
             <div id="peaks-container">
                 <div id="zoomview-container"></div>
                 <div id="overview-container"></div>
@@ -82,9 +90,9 @@ const AudioPlayer = () => {
                 <source src={sound} />
             </audio>
             {points.toString()}
-            <br/><br/>
+            <br /><br />
         </div>
     )
-}
+});
 
 export default AudioPlayer;

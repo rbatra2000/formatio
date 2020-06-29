@@ -81,4 +81,8 @@ const db = [
     }
 ]
 
-export { db };
+const starts = [
+    0,5,8,10
+]
+
+export { db, starts };

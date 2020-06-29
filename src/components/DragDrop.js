@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import DragBall from './DragBall'
 import { R_INC, C_INC, GRIDR_INC, GRIDC_INC } from '../constants/shared';
 import { Grid, Cell } from "styled-css-grid";
-import { db } from '../constants/testdb';
 import { Context } from '../constants/global';
 
 
@@ -39,8 +38,9 @@ const createGrid = (height) => {
 }
 
 const Formations = forwardRef((props, ref) => {
-    const [data, setData] = useState(db);
     const [state, dispatch] = useContext(Context);
+    const [data, setData] = useState(state.database);
+
 
     useImperativeHandle(ref, () => ({
         nextFormation() {

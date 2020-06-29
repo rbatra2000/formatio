@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import {db, starts} from './testdb';
 
 const Reducer = (state, action) => {
     switch (action.type) {
@@ -29,6 +30,8 @@ const Reducer = (state, action) => {
 
 const initialState = {
     formNum: 0,
+    database: db,
+    starts: starts,
     error: null
 };
 
