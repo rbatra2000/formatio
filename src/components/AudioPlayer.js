@@ -8,7 +8,8 @@ import { Context } from '../constants/global';
 const AudioPlayer = forwardRef((props, ref) => {
     const [instance, setInstance] = useState(null);
     const [state, dispatch] = useContext(Context);
-    const [points, setPoints] = useState(state.starts);
+    const [loading, setLoading] = useState(true);
+
 
     useImperativeHandle(ref, () => ({
         // On mac you can use the play button on keyboard which messes up the state for the button
@@ -21,16 +22,47 @@ const AudioPlayer = forwardRef((props, ref) => {
         },
 
         dropPoint() {
-            instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: '#FF0000' });
-            setPoints([...points, instance.player.getCurrentTime()]);
+            // need to add id to each of these points
+            // Add additional functionality to be able to move formations around as well
+            instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: 'black' });
+            // setPoints([...points, instance.player.getCurrentTime()]);
+            dispatch({ type: 'ADD_FORMATION', time: instance.player.getCurrentTime() });
         }
     }));
 
-    function timeListener(time) {
-        const newTime = parseFloat(time.toFixed(1));
-        if (points.includes(newTime)) {
-            dispatch({ type: 'SET_FORMATION', num: points.indexOf(newTime) });
+    // idk about this
+    let binarySearch = function (arr, x, start, end) {
+
+        // Base Condition 
+        if (end - start <= 1) {
+            return start;
         }
+
+        if (x >= arr[end]) {
+            return end;
+        }
+
+        // Find the middle index 
+        let mid = Math.floor((start + end) / 2);
+
+        // // Compare mid with given key x 
+        // if (arr[mid]===x) return "exact"; 
+
+        // If element at mid is greater than x, 
+        // search in the left half of mid 
+        if (arr[mid] > x)
+            return binarySearch(arr, x, start, mid);
+        else
+
+            // If element at mid is smaller than x, 
+            // search in the right half of mid 
+            return binarySearch(arr, x, mid, end);
+    }
+
+    function timeListener(time) {
+        const newForm = binarySearch(state.starts, time, 0, state.starts.length - 1);
+        // Ideally I want to only do this when its different from the previous formation
+        dispatch({ type: 'SET_FORMATION', num: newForm });
     }
 
     // the formations aren't showing up at first idk why
@@ -43,20 +75,28 @@ const AudioPlayer = forwardRef((props, ref) => {
 
     useEffect(() => {
         // Run after instance is initialized (needs to be once somehow)
-        if (instance != null) {
+        if (instance != null && loading) {
             instance.on('player.timeupdate', timeListener);
 
-            for (var i = 0; i < points.length; i++) {
-                // Add non-editable point, with a Red color
-                instance.points.add({ time: points[i], labelText: ("Formation #" + i), id: i, color: "#FF0000" });
-            }
-            console.log(instance.points.getPoints());
+            // Modifications
+            // const view = instance.views.getView('zoomview');
+            // console.log(view);
+            // view.enableMarkerEditing(true);
+
+            setLoading(false);
         }
-    }, [instance, points]);
+    }, [instance, loading]);
 
     const startFunction = () => {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioContext = new AudioContext();
+
+        var initialPoints = [];
+        for (var i = 0; i < state.starts.length; i++) {
+            // Add non-editable point, with a Red color
+            initialPoints.push({ time: state.starts[i], labelText: ("Formation #" + i), color: "#FF0000" });
+        }
+
 
         const options = {
             containers: {
@@ -69,6 +109,11 @@ const AudioPlayer = forwardRef((props, ref) => {
             },
 
             // customization
+            // Precision of time label of play head and point/segment markers
+            timeLabelPrecision: 2,
+
+            // Array of initial point objects
+            points: initialPoints,
         };
 
         setInstance(Peaks.init(options, function (err, peaks) {
@@ -77,6 +122,7 @@ const AudioPlayer = forwardRef((props, ref) => {
                 return;
             }
         }));
+
     }
 
 
@@ -89,7 +135,7 @@ const AudioPlayer = forwardRef((props, ref) => {
             <audio>
                 <source src={sound} />
             </audio>
-            {points.toString()}
+            {state.starts.toString()}
             <br /><br />
         </div>
     )

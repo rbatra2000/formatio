@@ -49,6 +49,9 @@ const FormationsScreen = () => {
                         audioRef.current.pauseAudio();
                     }
                 }}>{play}</StyledButton>
+                <StyledButton variant="contained" color="secondary" onClick={() => {
+                    audioRef.current.dropPoint();
+                }}>New</StyledButton>
                 {/* <StyledButton variant="contained" color="secondary" onClick={() => {
                     audioRef.current.dropPoint();
                 }}>Drop</StyledButton> */}
