@@ -1,4 +1,6 @@
 import React, { createContext, useReducer } from "react";
+import {db, starts} from './testdb';
+import lodash from 'lodash';
 
 const Reducer = (state, action) => {
     switch (action.type) {
@@ -21,7 +23,16 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 formNum: action.num,
-            }
+            };
+        case 'ADD_FORMATION':
+            var newFormation = lodash.cloneDeep(state.database[state.formNum]);
+            state.database.splice(state.formNum+1, 0, newFormation);
+            state.starts.splice(state.formNum+1, 0, action.time);
+
+            return {
+                ...state,
+                formNum: state.formNum + 1,
+            };
         default:
             return state;
     }
@@ -29,6 +40,8 @@ const Reducer = (state, action) => {
 
 const initialState = {
     formNum: 0,
+    database: db,
+    starts: starts,
     error: null
 };
 

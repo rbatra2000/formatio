@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import DragBall from './DragBall'
 import { R_INC, C_INC, GRIDR_INC, GRIDC_INC } from '../constants/shared';
 import { Grid, Cell } from "styled-css-grid";
-import { db } from '../constants/testdb';
 import { Context } from '../constants/global';
 
 
@@ -39,8 +38,9 @@ const createGrid = (height) => {
 }
 
 const Formations = forwardRef((props, ref) => {
-    const [data, setData] = useState(db);
     const [state, dispatch] = useContext(Context);
+    const [data, setData] = useState(state.database);
+
 
     useImperativeHandle(ref, () => ({
         nextFormation() {
@@ -124,6 +124,9 @@ const Formations = forwardRef((props, ref) => {
         list[form]["dancers"][dancer].x = x;
         list[form]["dancers"][dancer].y = y;
         setData(list);
+        // setData([... ])
+        // console.log(form);
+        // dispatch({ type: 'CHANGE_FORMATION', f: form, d: dancer, xCoor: x, yCoor: y });
     }
 
     var elements = []
@@ -134,15 +137,6 @@ const Formations = forwardRef((props, ref) => {
 
     return (
         <View style={styles.mainContainer}>
-
-            {/* <Button title="NEXT FORMATION" onPress={() => {                
-                if (state.formNum == data.length - 1) {
-                    dispatch({type: 'RESET_FORMATION'});
-                } else {
-                    dispatch({type: 'NEXT_FORMATION'});
-                }
-            }} /> */}
-
             {/* Border of the grid*/}
             <View style={styles.grid}>
                 <Grid id="grid" flow="row dense" columns={C_INC} style={{ position: 'absolute', width: "100%", height: "100%", }} gap={"3px"}>

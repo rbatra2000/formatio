@@ -30,7 +30,7 @@ class DragBall extends Component {
     constructor(props) {
         super(props);
 
-        this.nextFormation = props.handler;
+        this.changeLoc = props.handler;
 
         this.state = {
             coordinates: "(" + String(this.convert(props.x, "R")) + "," + String(this.convert(props.y, "C")) + ")",
@@ -114,9 +114,7 @@ class DragBall extends Component {
                 //     x: this.convertToStageR(this.coordX),
                 //     y: this.convertToStageC(this.coordY),
                 // });
-
-                this.nextFormation(this.context[0].formNum, this.state.name, this.convert(this.coord.x, "R"), this.convert(this.coord.y, "C"));
-
+                this.changeLoc(this.context[0].formNum, this.state.name, parseFloat(this.convert(this.coord.x, "R")), parseFloat(this.convert(this.coord.y, "C")));
 
             }
 
@@ -126,7 +124,6 @@ class DragBall extends Component {
 
     static contextType = Context;
 
-    // for testing
     getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
     }

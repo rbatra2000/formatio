@@ -4,17 +4,17 @@ const db = [
             "rohit": {
                 x: -0.50,
                 y: 2.50,
-                color: "#ff0000"
+                color: "lightblue"
             },
             "ritik": {
                 x: 0.50,
                 y: 2.50,
-                color: "#ff0000"
+                color: "pink"
             },
             "maya": {
                 x: 0.00,
                 y: 2.00,
-                color: "gray"
+                color: "pink"
             }
         },
         duration: 250,
@@ -24,17 +24,17 @@ const db = [
             "rohit": {
                 x: -0.50,
                 y: .5,
-                color: "lightgreen"
+                color: "lightblue"
             },
             "ritik": {
                 x: 0.50,
                 y: .5,
-                color: "lightgreen"
+                color: "pink"
             },
             "maya": {
                 x: 0.00,
                 y: 0.00,
-                color: "green"
+                color: "pink"
             },
         },
         duration: 500,
@@ -49,12 +49,12 @@ const db = [
             "ritik": {
                 x: 0.00,
                 y: 0.50,
-                color: "red"
+                color: "pink"
             },
             "maya": {
                 x: 0.00,
                 y: 1.50,
-                color: "lightblue"
+                color: "pink"
             },
         },
         duration: 400,
@@ -64,7 +64,7 @@ const db = [
             "rohit": {
                 x: 0.50,
                 y: 1.50,
-                color: "pink"
+                color: "lightblue"
             },
             "ritik": {
                 x: -0.50,
@@ -74,11 +74,15 @@ const db = [
             "maya": {
                 x: 0.00,
                 y: 1.50,
-                color: "green"
+                color: "pink"
             },
         },
         duration: 750,
     }
 ]
 
-export { db };
+const starts = [
+    0,5,8,10
+]
+
+export { db, starts };

@@ -1,39 +1,102 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useImperativeHandle, forwardRef, useContext } from 'react'
 import Peaks from 'peaks.js';
-import { Button } from '@material-ui/core';
 import sound from "../assets/audio.mp3";
-import styled from 'styled-components';
+import { Context } from '../constants/global';
 
 // Add some sort of loading for the mp3 file loading!!
 
-const ButtonContainer = styled.div`
-  align-items: center;
-  text-align:center;
-  margin: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100px;
-  &:hover {
-    background-color: #5469d4;
-  }
-`;
-
-const AudioPlayer = () => {
-    const [play, setPlay] = useState("Play");
+const AudioPlayer = forwardRef((props, ref) => {
     const [instance, setInstance] = useState(null);
-    const [points, setPoints] = useState([]);
+    const [state, dispatch] = useContext(Context);
+    const [loading, setLoading] = useState(true);
+
+
+    useImperativeHandle(ref, () => ({
+        // On mac you can use the play button on keyboard which messes up the state for the button
+        playAudio() {
+            instance.player.play();
+        },
+
+        pauseAudio() {
+            instance.player.pause();
+        },
+
+        dropPoint() {
+            // need to add id to each of these points
+            // Add additional functionality to be able to move formations around as well
+            instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: 'black' });
+            // setPoints([...points, instance.player.getCurrentTime()]);
+            dispatch({ type: 'ADD_FORMATION', time: instance.player.getCurrentTime() });
+        }
+    }));
+
+    // idk about this
+    let binarySearch = function (arr, x, start, end) {
+
+        // Base Condition 
+        if (end - start <= 1) {
+            return start;
+        }
+
+        if (x >= arr[end]) {
+            return end;
+        }
+
+        // Find the middle index 
+        let mid = Math.floor((start + end) / 2);
+
+        // // Compare mid with given key x 
+        // if (arr[mid]===x) return "exact"; 
+
+        // If element at mid is greater than x, 
+        // search in the left half of mid 
+        if (arr[mid] > x)
+            return binarySearch(arr, x, start, mid);
+        else
+
+            // If element at mid is smaller than x, 
+            // search in the right half of mid 
+            return binarySearch(arr, x, mid, end);
+    }
+
+    function timeListener(time) {
+        const newForm = binarySearch(state.starts, time, 0, state.starts.length - 1);
+        // Ideally I want to only do this when its different from the previous formation
+        dispatch({ type: 'SET_FORMATION', num: newForm });
+    }
+
+    // the formations aren't showing up at first idk why
 
 
     useEffect(() => {
         // Run initially once
-        helper();
+        startFunction();
     }, []);
-    
 
-    const helper = () => {
+    useEffect(() => {
+        // Run after instance is initialized (needs to be once somehow)
+        if (instance != null && loading) {
+            instance.on('player.timeupdate', timeListener);
+
+            // Modifications
+            // const view = instance.views.getView('zoomview');
+            // console.log(view);
+            // view.enableMarkerEditing(true);
+
+            setLoading(false);
+        }
+    }, [instance, loading]);
+
+    const startFunction = () => {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioContext = new AudioContext();
+
+        var initialPoints = [];
+        for (var i = 0; i < state.starts.length; i++) {
+            // Add non-editable point, with a Red color
+            initialPoints.push({ time: state.starts[i], labelText: ("Formation #" + i), color: "#FF0000" });
+        }
+
 
         const options = {
             containers: {
@@ -46,6 +109,11 @@ const AudioPlayer = () => {
             },
 
             // customization
+            // Precision of time label of play head and point/segment markers
+            timeLabelPrecision: 2,
+
+            // Array of initial point objects
+            points: initialPoints,
         };
 
         setInstance(Peaks.init(options, function (err, peaks) {
@@ -54,26 +122,12 @@ const AudioPlayer = () => {
                 return;
             }
         }));
+
     }
+
 
     return (
         <div>
-            <ButtonContainer>
-                <StyledButton style={{marginRight: '10px'}} variant="contained" color="primary" onClick={() => {
-                    if (play === "Play") {
-                        setPlay("Pause");
-                        instance.player.play();
-                    } else {
-                        setPlay("Play");
-                        instance.player.pause();
-                    }
-                }}>{play}</StyledButton>
-                <StyledButton variant="contained" color="primary" onClick={() => {
-                    instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: '#FF0000' });
-                    setPoints([...points, instance.player.getCurrentTime()])
-                    
-                }}>Drop</StyledButton>
-            </ButtonContainer>
             <div id="peaks-container">
                 <div id="zoomview-container"></div>
                 <div id="overview-container"></div>
@@ -81,10 +135,10 @@ const AudioPlayer = () => {
             <audio>
                 <source src={sound} />
             </audio>
-            {points.toString()}
-            <br/><br/>
+            {state.starts.toString()}
+            <br /><br />
         </div>
     )
-}
+});
 
 export default AudioPlayer;
