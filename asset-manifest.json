@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/choreox/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/choreox/static/js/main.9d96a3a9.chunk.js",
+    "main.js.map": "/choreox/static/js/main.9d96a3a9.chunk.js.map",
+    "runtime-main.js": "/choreox/static/js/runtime-main.7b471f7b.js",
+    "runtime-main.js.map": "/choreox/static/js/runtime-main.7b471f7b.js.map",
+    "static/js/2.1b3b5197.chunk.js": "/choreox/static/js/2.1b3b5197.chunk.js",
+    "static/js/2.1b3b5197.chunk.js.map": "/choreox/static/js/2.1b3b5197.chunk.js.map",
+    "index.html": "/choreox/index.html",
+    "precache-manifest.8e06802d6afde9d7d5c0fa3fc2a1d0dc.js": "/choreox/precache-manifest.8e06802d6afde9d7d5c0fa3fc2a1d0dc.js",
+    "service-worker.js": "/choreox/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/choreox/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.1b3b5197.chunk.js.LICENSE.txt": "/choreox/static/js/2.1b3b5197.chunk.js.LICENSE.txt",
+    "static/media/audio.mp3": "/choreox/static/media/audio.aab9cdd0.mp3"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b471f7b.js",
+    "static/js/2.1b3b5197.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.9d96a3a9.chunk.js"
+  ]
+}
