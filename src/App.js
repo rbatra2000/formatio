@@ -17,7 +17,7 @@ export default function App() {
         <nav style={{ backgroundColor: 'lightgray' }}>
           <ul>
             <li>
-              <Link to="/drag">Formations</Link>
+              <Link to="/">Formations</Link>
             </li>
             <li>
               <Link to="/register">Register</Link>
@@ -31,11 +31,11 @@ export default function App() {
           <Route path="/register">
             <Register />
           </Route>
-          <Route path="/drag">
-            <FormationScreen />
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/">
-            <Login />
+            <FormationScreen />
           </Route>
 
         </Switch>

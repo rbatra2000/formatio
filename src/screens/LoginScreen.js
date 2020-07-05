@@ -11,7 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
+import * as dom from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 
 // THIS IS AN EXAMPLE OF A LOGIN SCREEN
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -104,9 +105,9 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/register" variant="body2">
+              <dom.Link to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
-              </Link>
+              </dom.Link>
             </Grid>
           </Grid>
         </form>
