@@ -20,7 +20,7 @@ def api_register(userid):
     """Shows basic usage of the Sheets API.
     Prints values from a sample spreadsheet.
     """
-    token_file = 'tokens/' + userid + 'token.pickle'
+    token_file = userid + 'token.pickle'
     credentials_file = 'credentials.json'
 
     creds = None
