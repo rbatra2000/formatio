@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as firebase from 'firebase';
-import axios from "axios";
+import axios from 'axios';
 
 
 // const express = require('express')
@@ -88,17 +88,19 @@ export default function SignUp() {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          // @Maya, here is where you do whatever you want after authenticating the user and creating an account for the
+          // @Maya, here is where you do whatever you want after authenticating the user
+
+          // This is for updating the user profile
+          var user = firebase.auth().currentUser;
+
           // @ritik change this userid variable
-          let userid = `1`
+          let userid = user.uid
 
           axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
           .then(res => {
             console.log(res.data)
           })
 
-          // This is for updating the user profile
-          var user = firebase.auth().currentUser;
           user.updateProfile({
             displayName: name,
           }).then(function () {
