@@ -1,3 +1,15 @@
+How to run this app:
+DO THIS FOR ONLY MAC USERS
+MAKE SURE NOTHING IS RUNNING ON PORT 500
+Start the backend:
+`cd backend`
+`source venv/bin/activate`
+`export FLASK_APP=backend.py`
+`flask run`
+
+Start the frontend:
+`npm start`
+
 Notes from Ritik (check):
 - Make sure you update npm/node (my npm is 6.14.4 and node is 12.16.1). Run 'npm install' to make sure you have the right node_modules
 - If you want to add a new screen, make sure to add a route to it in App.js and look at the Login/Register screens for an example for how to link to it using react-router-dom
