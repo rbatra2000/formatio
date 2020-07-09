@@ -13,8 +13,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+import axios from "axios";
 
+
+// const express = require('express')
+// const {spawn} = require('child_process')
 
 // @Maya, this is the pain init part for firebase (will be moved to the parent file App.js eventually)
 if (!firebase.apps.length) {
@@ -64,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+
   const classes = useStyles();
   const [log, setLog] = useState("Log");
 
@@ -71,8 +76,7 @@ export default function SignUp() {
     // Listen for form submit
     document.getElementById('form').addEventListener('submit', submitForm);
   }
-
-
+  
   //@Maya, main function for authenticating user
   const authenticate = (email, fName, lName, password, confirm) => {
     if (confirm != password) {
@@ -84,7 +88,14 @@ export default function SignUp() {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          // @Maya, here is where you do whatever you want after authenticating the user and creating an account for them
+          // @Maya, here is where you do whatever you want after authenticating the user and creating an account for the
+          // @ritik change this userid variable
+          let userid = `1`
+
+          axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
+          .then(res => {
+            console.log(res.data)
+          })
 
           // This is for updating the user profile
           var user = firebase.auth().currentUser;
@@ -98,11 +109,14 @@ export default function SignUp() {
               avatar: 1,
             });
             // Any UI updates
-            setLog("SUCCESS!!!")
+            setLog("SUCCESS!1!")
           }).catch(function (error) {
             // An error happened. Rip hope for the best
             setLog(error);
           });
+
+          // run();
+
         })
         .catch(error => {
           console.log(error.code);
