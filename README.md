@@ -2,10 +2,7 @@ How to run this app:
 DO THIS FOR ONLY MAC USERS
 MAKE SURE NOTHING IS RUNNING ON PORT 500
 Start the backend:
-`cd backend`
-`source venv/bin/activate`
-`export FLASK_APP=backend.py`
-`flask run`
+`python backend.pyc`
 
 Start the frontend:
 `npm start`
