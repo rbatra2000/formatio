@@ -25,9 +25,14 @@ FORMATION_C = Formation(dancers=[Dancer(name="x", x=0, y=0),
                                  Dancer(name="z", x=2, y=2),
                                 ])
 
+FORMATION_D = Formation(dancers=[Dancer(name="x", x=0, y=0),
+                                 Dancer(name="y", x=1, y=1),
+                                 Dancer(name="z", x=2, y=2),
+                                ])
+
 SONG_A = Song(name="song_a", num_rows=8, num_cols=8, formations=[FORMATION_A, FORMATION_B])
 SONG_B = Song(name="song_b", num_rows=8, num_cols=8, formations=[FORMATION_A, FORMATION_B])
-SONG_C = Song(name="song_c", num_rows=8, num_cols=8, formations=[FORMATION_A, FORMATION_B, FORMATION_C])
+SONG_C = Song(name="song_c", num_rows=8, num_cols=8, formations=[FORMATION_A, FORMATION_B, FORMATION_C, FORMATION_D])
 
 def deleteSheet(sheetService, sheetId, spreadsheetId):
     batch_update_spreadsheet_request_body = {
@@ -131,7 +136,7 @@ def addSongs(sheetService, spreadsheetId, songs):
        }
        value_input_option = 'RAW'
 
-       range_value = song.name + '!A1:Z100'
+       range_value = song.name + '!A1:Z' + str(len(values))
        result = sheetService.values().update(spreadsheetId=spreadsheetId, range=range_value,
                                  valueInputOption=value_input_option, body=body).execute()
 
