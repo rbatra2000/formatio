@@ -5,6 +5,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from flask import Flask, url_for
+from formation import updateSheet, makeSheet
 app = Flask(__name__)
 
 # If modifying these scopes, delete the file token.pickle.
@@ -43,6 +44,15 @@ def api_register(userid):
             pickle.dump(creds, token)
 
     return 'This is the userid: ' + userid
+
+@app.route('/create_spreadsheet/<userid>')
+def create_spreadsheet(userid):
+    return makeSheet(userid)
+
+
+@app.route('/export/<userid>/<spreadsheetid>')
+def export(userid, spreadsheetid):
+    return updateSheet(userid, spreadsheetid)
 
 if __name__ == '__main__':
     app.run()
