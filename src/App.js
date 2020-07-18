@@ -8,6 +8,7 @@ import {
 import Login from './screens/LoginScreen';
 import Register from './screens/RegisterScreen';
 import FormationScreen from './screens/FormationsScreen';
+import SpreadsheetScreen from './screens/SpreadsheetScreen';
 import Store from "./constants/global";
 
 export default function App() {
@@ -22,6 +23,9 @@ export default function App() {
             <li>
               <Link to="/register">Register</Link>
             </li>
+            <li>
+              <Link to="/spreadsheet">Spreadsheet</Link>
+            </li>
           </ul>
         </nav>
 
@@ -34,10 +38,12 @@ export default function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/spreadsheet">
+            <SpreadsheetScreen />
+          </Route>
           <Route path="/">
             <FormationScreen />
           </Route>
-
         </Switch>
       </Store>
     </Router>

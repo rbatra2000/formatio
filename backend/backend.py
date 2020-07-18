@@ -4,7 +4,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from flask import Flask, url_for
+from flask import Flask, url_for, Response
 from formation import updateSheet, makeSheet
 app = Flask(__name__)
 
@@ -43,16 +43,27 @@ def api_register(userid):
         with open(token_file, 'wb') as token:
             pickle.dump(creds, token)
 
-    return 'This is the userid: ' + userid
+ 
+    resp = Response('This is the userid: ' + userid)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route('/create_spreadsheet/<userid>')
 def create_spreadsheet(userid):
-    return makeSheet(userid)
+
+    data, error = makeSheet(userid)
+    resp = Response(data, status=error)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.route('/export/<userid>/<spreadsheetid>')
 def export(userid, spreadsheetid):
-    return updateSheet(userid, spreadsheetid)
+
+    data, error = updateSheet(userid, spreadsheetid)
+    resp = Response(data, status=error)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 if __name__ == '__main__':
     app.run()

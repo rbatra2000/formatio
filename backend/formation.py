@@ -203,26 +203,25 @@ def getSheetService(userid):
 def updateSheet(userid, spreadsheetId):
     #get the sheet serice
     sheetService = getSheetService(userid)
-    if (type(sheetService) == "str"):
-        return sheetService
+    if (type(sheetService) is str):
+        return sheetService, 401
 
     clearWorksheet(sheetService, spreadsheetId)
     addSongs(sheetService, spreadsheetId, [SONG_A, SONG_B, SONG_C])
-    return "Success"
+    return "Success", 200
 
 def makeSheet(userid):
     #get the sheet serice
     sheetService = getSheetService(userid)
-    if (type(sheetService) == "str"):
-        return sheetService
+    if (type(sheetService) is str):
+        return sheetService, 401
 
     spreadsheet_body = {
     }
-
     request = sheetService.create(body=spreadsheet_body)
     response = request.execute()
     
     spreadsheetId = response.get("spreadsheetId")
     # @Ritik push this spreadsheetId ^ with the userid 
 
-    return spreadsheetId
+    return spreadsheetId, 200
