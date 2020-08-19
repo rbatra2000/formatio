@@ -4,7 +4,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from flask import Flask, url_for, Response
+from flask import Flask, url_for, Response, request, jsonify
 from formation import updateSheet, makeSheet
 app = Flask(__name__)
 
@@ -64,6 +64,11 @@ def export(userid, spreadsheetid):
     resp = Response(data, status=error)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+# Test receiving post request + need to process json
+@app.route('/test')
+def result():
+    return request.form
 
 if __name__ == '__main__':
     app.run()
