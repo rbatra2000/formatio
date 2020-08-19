@@ -29,41 +29,97 @@ firebase.auth()
 
 function SpreadsheetScreen() {
 
-    function createSpreadsheet() {
-		var user = firebase.auth().currentUser
-		axios.get(`http://localhost:5000/create_spreadsheet/` + user.uid)
-          .then(res => {
-            var spreadsheetId = res
-            // push this spreadsheetid to firebase
-          })
-          .catch(err => {
-          	console.log(err)
-          })
-	}
+  function createSpreadsheet() {
+    var user = firebase.auth().currentUser
+    axios.get(`http://localhost:5000/create_spreadsheet/` + user.uid)
+      .then(res => {
+        var spreadsheetId = res
+        // push this spreadsheetid to firebase
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-	function updateSpreadsheet() {
-		var user = firebase.auth().currentUser
-		// replace with the spreadsheet of the current user
-		var spreadsheetId = "1234"
-		axios.get(`http://localhost:5000/export/` + user.uid + `/` + spreadsheetId)
-          .then(res => {
-            console.log(res.status)
-          })
-          .catch(err => {
-          	console.log(err)
-          })
-	}
+  function updateSpreadsheet() {
+    var user = firebase.auth().currentUser
+    // replace with the spreadsheet of the current team
+    var spreadsheetId = "1234"
+    // get the JSON file from firebase, but for now, manual override
+    // Structure is team -> song -> formation -> locations
+    var team = {
+      songA: {
+        formation1: {
+          A: {
+            x: 2,
+            y: 3,
+          },
+          B: {
+            x: 2,
+            y: 1,
+          }
+        },
+        formation2: {
+          A: {
+            x: 3,
+            y: 3,
+          },
+          B: {
+            x: 2,
+            y: 1,
+          }
+        }
+      },
+      songB: {
+        formation1: {
+          A: {
+            x: 2,
+            y: 3,
+          },
+          B: {
+            x: 2,
+            y: 1,
+          }
+        },
+        formation2: {
+          A: {
+            x: 3,
+            y: 3,
+          },
+          B: {
+            x: 2,
+            y: 1,
+          }
+        }
+      }
+    }
+    // axios.get(`http://localhost:5000/export/` + user.uid + `/` + spreadsheetId)
+    //       .then(res => {
+    //         console.log(res.status)
+    //       })
+    //       .catch(err => {
+    //       	console.log(err)
+    //       })
+    console.log('sending');
+    axios.post(`http://localhost:5000/test`, team)
+      .then(res => {
+        console.log(res.status)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-	return (
-		<div>
-		 <StyledButton variant="contained" color="secondary" onClick={() => createSpreadsheet()} >
+  return (
+    <div>
+      <StyledButton variant="contained" color="secondary" onClick={() => createSpreadsheet()} >
         Create Spreadsheet
         </StyledButton>
-        <StyledButton variant="contained" color="secondary" onClick={() => updateSpreadsheet()}>
+      <StyledButton variant="contained" color="secondary" onClick={() => updateSpreadsheet()}>
         Update Spreadsheet
         </StyledButton>
-		</div>
-		);
+    </div>
+  );
 }
 
 

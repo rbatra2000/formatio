@@ -10,18 +10,17 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import * as styles from '.././constants/styling.js'
 import Container from '@material-ui/core/Container';
 import * as dom from 'react-router-dom';
 import Link from '@material-ui/core/Link';
-
-// THIS IS AN EXAMPLE OF A LOGIN SCREEN
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Formatio
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -57,7 +56,7 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
