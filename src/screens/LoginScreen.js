@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as styles from '.././constants/styling.js'
 import Container from '@material-ui/core/Container';
 import * as dom from 'react-router-dom';
+import firebase from "../constants/firebase";
 import Link from '@material-ui/core/Link';
+
 
 function Copyright() {
   return (
@@ -21,7 +23,7 @@ function Copyright() {
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Formatio
-      </Link>{' '}
+      </Link>
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -46,24 +48,47 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  // TODO: Fix weird purple color
+  // focused: {
+  //   "& $notchedOutline": {
+  //     borderColor: "styles.PRIMARY"
+  //   }
+  // },
+  // notchedOutline: {},
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
-  
+  const { history } = props;
+
+  const handleLogin = useCallback(
+    async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      try {
+        await firebase
+          .auth()
+          .signInWithEmailAndPassword(email.value, password.value);
+        history.push("/formations");
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon/>
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleLogin}>
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -74,7 +99,6 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -84,10 +108,10 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+          {/* <FormControlLabel
+            control={<Checkbox value="remember" color="styles.PRIMARY" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,15 +10,22 @@ import Register from './screens/RegisterScreen';
 import FormationScreen from './screens/FormationsScreen';
 import SpreadsheetScreen from './screens/SpreadsheetScreen';
 import Store from "./constants/global";
+import Unauthorized from "./screens/UnauthorizedScreen";
+import { AuthProvider } from "./constants/Auth";
+import PrivateRoute from "./constants/PrivateRoute";
 
 export default function App() {
   return (
-    <Router>
-      <Store>
-        <nav style={{ backgroundColor: 'lightgray' }}>
+    <AuthProvider>
+      <Router>
+        <Store>
+          {/* <nav style={{ backgroundColor: 'lightgray' }}>
           <ul>
+          <li>
+              <Link to="/">Login</Link>
+            </li>
             <li>
-              <Link to="/">Formations</Link>
+              <Link to="/formations">Formations</Link>
             </li>
             <li>
               <Link to="/register">Register</Link>
@@ -27,26 +34,20 @@ export default function App() {
               <Link to="/spreadsheet">Spreadsheet</Link>
             </li>
           </ul>
-        </nav>
+        </nav> */}
 
-        {/* A <Switch> looks through its children <Route>s and
+          {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/spreadsheet">
-            <SpreadsheetScreen />
-          </Route>
-          <Route path="/">
-            <FormationScreen />
-          </Route>
-        </Switch>
-      </Store>
-    </Router>
+          <Switch>
+            <Route path="/register" component={Register} />
+            <PrivateRoute exact path="/spreadsheet" component={SpreadsheetScreen} />
+            <PrivateRoute exact path="/formations" component={FormationScreen} />
+            <Route exact path='/unauthorized' component={Unauthorized} />
+            <Route path="/" component={Login} />
+          </Switch>
+        </Store>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -148,15 +148,11 @@ const Formations = forwardRef((props, ref) => {
                     {
                         elements
                     }
-
                 </View>
-
-
             </View>
         </View>
     );
 });
-
 
 // Change number of rows and columns later by doing css programatically
 const styles = StyleSheet.create({
@@ -174,6 +170,5 @@ const styles = StyleSheet.create({
     },
 
 });
-
 
 export default Formations;

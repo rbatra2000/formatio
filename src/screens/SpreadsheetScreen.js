@@ -24,10 +24,7 @@ if (!firebase.apps.length) {
   });
 }
 
-
-firebase.auth()
-
-function SpreadsheetScreen() {
+function SpreadsheetScreen(props) {
 
   function createSpreadsheet() {
     var user = firebase.auth().currentUser
@@ -39,6 +36,16 @@ function SpreadsheetScreen() {
       .catch(err => {
         console.log(err)
       })
+  }
+
+  function logout() {
+    const { history } = props;
+    firebase.auth().signOut().then(function() {
+      history.push('./login');
+    }).catch(function(error) {
+      // An error happened.
+      console.log(error);
+    });
   }
 
   function updateSpreadsheet() {
@@ -117,6 +124,10 @@ function SpreadsheetScreen() {
         </StyledButton>
       <StyledButton variant="contained" color="secondary" onClick={() => updateSpreadsheet()}>
         Update Spreadsheet
+        </StyledButton>
+
+      <StyledButton variant="contained" color="secondary" onClick={() => logout()}>
+        Log Out
         </StyledButton>
     </div>
   );
