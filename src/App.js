@@ -7,12 +7,15 @@ import {
 } from "react-router-dom";
 import Login from './screens/LoginScreen';
 import Register from './screens/RegisterScreen';
+import Forgot from './screens/ForgotScreen';
 import FormationScreen from './screens/FormationsScreen';
 import SpreadsheetScreen from './screens/SpreadsheetScreen';
 import Store from "./constants/global";
 import Unauthorized from "./screens/UnauthorizedScreen";
 import { AuthProvider } from "./constants/Auth";
 import PrivateRoute from "./constants/PrivateRoute";
+import Demo from './components/Drawer';
+import DashboardScreen from "./screens/DashboardScreen";
 
 export default function App() {
   return (
@@ -43,6 +46,10 @@ export default function App() {
             <PrivateRoute exact path="/spreadsheet" component={SpreadsheetScreen} />
             <PrivateRoute exact path="/formations" component={FormationScreen} />
             <Route exact path='/unauthorized' component={Unauthorized} />
+            <Route exact path='/forgot' component={Forgot} />
+            <Route exact path='/drawer' component={Demo} />
+            <Route exact path='/home' component={DashboardScreen} />
+
             <Route path="/" component={Login} />
           </Switch>
         </Store>

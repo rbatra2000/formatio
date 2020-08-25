@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,26 +20,12 @@ import axios from 'axios';
 // const express = require('express')
 // const {spawn} = require('child_process')
 
-// @Maya, this is the pain init part for firebase (will be moved to the parent file App.js eventually)
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCP7f-0gM04PNKyg_61zNHrEcoGuv5csww",
-    authDomain: "choreox.firebaseapp.com",
-    databaseURL: "https://choreox.firebaseio.com",
-    projectId: "choreox",
-    storageBucket: "choreox.appspot.com",
-    messagingSenderId: "282857958796",
-    appId: "1:282857958796:web:a4823f4d0f62548ee9baa9",
-    measurementId: "G-G85QRHSBW3"
-  });
-}
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        ChoreoX
+        Formatio
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -67,98 +53,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
 
   const classes = useStyles();
-  const [log, setLog] = useState("Log");
+  const { history } = props;
 
-  window.onload = function () {
-    // Listen for form submit
-    document.getElementById('form').addEventListener('submit', submitForm);
-  }
-  
-  //@Maya, main function for authenticating user
-  const authenticate = (email, fName, lName, password, confirm) => {
-    if (confirm != password) {
-      setLog("Passwords do not match!");
-    } else {
-      let errorMsg = "";
-      const name = fName + ' ' + lName;
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          // @Maya, here is where you do whatever you want after authenticating the user
+  const handleSignUp = useCallback(
+    async event => {
+      event.preventDefault();
+      const { firstName, lastName, email, password, confirmPassword } = event.target.elements;
+      if (confirmPassword != password) {
+        try {
+          await firebase
+            .auth()
+            .createUserWithEmailAndPassword(email.value, password.value);
 
-          // This is for updating the user profile
           var user = firebase.auth().currentUser;
 
           // @ritik change this userid variable
           let userid = user.uid
 
           axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
-          .then(res => {
-            console.log(res.data)
-          })
+            .then(res => {
+              console.log(res.data)
+            })
 
-          user.updateProfile({
-            displayName: name,
-          }).then(function () {
-            // Update successful.
-            // This is for any database updates
-            const dbh = firebase.firestore();
-            dbh.collection("users").doc(user.uid).set({
-              avatar: 1,
-            });
-            // Any UI updates
-            setLog("SUCCESS!1!")
-          }).catch(function (error) {
-            // An error happened. Rip hope for the best
-            setLog(error);
-          });
+          // user.updateProfile({
+          //   displayName: name,
+          // }).then(function () {
+          //   // Update successful.
+          //   // This is for any database updates
+          //   const dbh = firebase.firestore();
+          //   dbh.collection("users").doc(user.uid).set({
+          //     avatar: 1,
+          //   });
+          //   // Any UI updates
+          //   setLog("SUCCESS!1!")
+          // }).catch(function (error) {
+          //   // An error happened. Rip hope for the best
+          //   setLog(error);
+          // });
 
-          // run();
-
-        })
-        .catch(error => {
-          console.log(error.code);
-          if (error.code == 'auth/email-already-in-use') {
-            errorMsg = 'That email address is already in use!';
-          }
-          else if (error.code == 'auth/invalid-email') {
-            errorMsg = 'That email address is invalid!';
-          }
-          else if (error.code == 'auth/weak-password') {
-            errorMsg = 'Password must be 6 characters long!';
-          } else {
-            errorMsg = 'Something went wrong, please try again!';
-          }
-          // Error Catching
-          setLog(errorMsg);
-
-        });
-    }
-  }
-
-  // Submit form
-  function submitForm(e) {
-    e.preventDefault();
-
-    // Get values
-    var firstName = getInputVal('firstName');
-    var lastName = getInputVal('lastName');
-    var email = getInputVal('email');
-    var password = getInputVal('password');
-    var confirmPassword = getInputVal('confirmPassword');
-
-    // Save message
-    authenticate(email, firstName, lastName, password, confirmPassword);
-  }
-
-  // Function to get get form values
-  function getInputVal(id) {
-    return document.getElementById(id).value;
-  }
+          history.push("/formations");
+        } catch (error) {
+          alert(error);
+        }
+      }
+      else {
+        alert("Passwords do not match");
+      }
+    },
+    [history]
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -170,8 +116,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        {log}
-        <form className={classes.form} noValidate id="form">
+        <form className={classes.form} noValidate onSubmit={handleSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -256,3 +201,87 @@ export default function SignUp() {
     </Container>
   );
 }
+
+  //@Maya, main function for authenticating user
+  // const authenticate = (email, fName, lName, password, confirm) => {
+  //   if (confirm != password) {
+  //     setLog("Passwords do not match!");
+  //   } else {
+  //     let errorMsg = "";
+  //     const name = fName + ' ' + lName;
+  //     firebase
+  //       .auth()
+  //       .createUserWithEmailAndPassword(email, password)
+  //       .then(() => {
+  //         // @Maya, here is where you do whatever you want after authenticating the user
+
+  //         // This is for updating the user profile
+  //         var user = firebase.auth().currentUser;
+
+  //         // @ritik change this userid variable
+  //         let userid = user.uid
+
+  //         axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
+  //         .then(res => {
+  //           console.log(res.data)
+  //         })
+
+  //         user.updateProfile({
+  //           displayName: name,
+  //         }).then(function () {
+  //           // Update successful.
+  //           // This is for any database updates
+  //           const dbh = firebase.firestore();
+  //           dbh.collection("users").doc(user.uid).set({
+  //             avatar: 1,
+  //           });
+  //           // Any UI updates
+  //           setLog("SUCCESS!1!")
+  //         }).catch(function (error) {
+  //           // An error happened. Rip hope for the best
+  //           setLog(error);
+  //         });
+
+  //         // run();
+
+  //       })
+  //       .catch(error => {
+  //         console.log(error.code);
+  //         if (error.code == 'auth/email-already-in-use') {
+  //           errorMsg = 'That email address is already in use!';
+  //         }
+  //         else if (error.code == 'auth/invalid-email') {
+  //           errorMsg = 'That email address is invalid!';
+  //         }
+  //         else if (error.code == 'auth/weak-password') {
+  //           errorMsg = 'Password must be 6 characters long!';
+  //         } else {
+  //           errorMsg = 'Something went wrong, please try again!';
+  //         }
+  //         // Error Catching
+  //         setLog(errorMsg);
+
+  //       });
+  //   }
+  // }
+
+  // // Submit form
+  // function submitForm(e) {
+  //   e.preventDefault();
+
+  //   // Get values
+  //   var firstName = getInputVal('firstName');
+  //   var lastName = getInputVal('lastName');
+  //   var email = getInputVal('email');
+  //   var password = getInputVal('password');
+  //   var confirmPassword = getInputVal('confirmPassword');
+
+  //   // Save message
+  //   authenticate(email, firstName, lastName, password, confirmPassword);
+  // }
+
+  // // Function to get get form values
+  // function getInputVal(id) {
+  //   return document.getElementById(id).value;
+  // }
+

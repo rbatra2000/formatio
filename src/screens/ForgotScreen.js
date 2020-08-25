@@ -3,14 +3,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import * as styles from '.././constants/styling.js'
+import * as styles from '../constants/styling.js'
 import Container from '@material-ui/core/Container';
 import * as dom from 'react-router-dom';
 import firebase from "../constants/firebase";
@@ -57,19 +55,19 @@ const useStyles = makeStyles((theme) => ({
   // notchedOutline: {},
 }));
 
-export default function SignIn(props) {
+export default function Forgot(props) {
   const classes = useStyles();
   const { history } = props;
 
-  const handleLogin = useCallback(
+  const handleReset = useCallback(
     async event => {
       event.preventDefault();
-      const { email, password } = event.target.elements;
+      const { email } = event.target.elements;
       try {
         await firebase
           .auth()
-          .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/formations");
+          .sendPasswordResetEmail(email.value);
+        history.push("/login");
       } catch (error) {
         alert(error);
       }
@@ -85,9 +83,9 @@ export default function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Forgot Password
         </Typography>
-        <form className={classes.form} onSubmit={handleLogin}>
+        <form className={classes.form} onSubmit={handleReset}>
           <TextField
             margin="normal"
             required
@@ -98,16 +96,7 @@ export default function SignIn(props) {
             autoComplete="email"
             autoFocus
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="styles.PRIMARY" />}
             label="Remember me"
@@ -119,20 +108,11 @@ export default function SignIn(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Send Reset Email
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <dom.Link to="/forgot" variant="body2">
-                Forgot password?
+          <dom.Link to="/login">
+            Go Back
               </dom.Link>
-            </Grid>
-            <Grid item>
-              <dom.Link to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </dom.Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
       <Box mt={8}>
