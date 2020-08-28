@@ -181,6 +181,30 @@ def addFormation(values, formation, offset):
   for dancer in formation.dancers:
       values[dancer.x + offset + 1][dancer.y + 1] = dancer.name
 
+
+def songStructure(formation_overall):
+
+  song_list = []
+
+  for song_name in formation_overall.keys():
+    song = formation_overall[song_name]
+    formation_list = []
+    for formation_name in song.keys():
+      formation = song[formation_name]
+      dancer_list = []
+      for dancer_name in formation.keys():
+        dancer = formation[dancer_name]
+        dancer_structure = Dancer(name=dancer_name, x=dancer["x"], y=dancer["y"])
+        dancer_list.append(dancer_structure)
+      formation_structure = Formation(dancers=dancer_list)
+      formation_list.append(formation_structure)
+    song_structure = Song(name=song_name, num_rows=8, num_cols=8, formations=formation_list)
+    song_list.append(song_structure)
+        
+
+  return song_list
+
+
 def getSheetService(userid):
     token_file = userid + 'token.pickle'
     creds = None
@@ -200,14 +224,17 @@ def getSheetService(userid):
 
     return service.spreadsheets()
 
-def updateSheet(userid, spreadsheetId):
+def updateSheet(userid, spreadsheetId, formation):
     #get the sheet serice
     sheetService = getSheetService(userid)
     if (type(sheetService) is str):
         return sheetService, 401
 
     clearWorksheet(sheetService, spreadsheetId)
-    addSongs(sheetService, spreadsheetId, [SONG_A, SONG_B, SONG_C])
+    print(formation)
+
+    songs = songStructure(formation)
+    addSongs(sheetService, spreadsheetId, songs)
     return "Success", 200
 
 def makeSheet(userid):

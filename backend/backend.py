@@ -4,14 +4,16 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from flask import Flask, url_for, Response, request, jsonify
+from flask import Flask, url_for, Response, request, jsonify, make_response, json
 from formation import updateSheet, makeSheet
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
-
+print("hello")
 @app.route('/')
 def api_root():
     return 'Welcome'
@@ -57,18 +59,37 @@ def create_spreadsheet(userid):
     return resp
 
 
-@app.route('/export/<userid>/<spreadsheetid>')
-def export(userid, spreadsheetid):
+# @app.route('/export/<userid>/<spreadsheetid>')
+# def export(userid, spreadsheetid):
 
-    data, error = updateSheet(userid, spreadsheetid)
-    resp = Response(data, status=error)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+#     data, error = updateSheet(userid, spreadsheetid)
+#     resp = Response(data, status=error)
+#     resp.headers['Access-Control-Allow-Origin'] = '*'
+#     return resp
+
+@app.route('/export2', methods=["POST"])
+def export2():
+    content = request.get_json()
+    userid = content.get("userid")
+    spreadsheetid = content.get("spreadsheetid")
+    formation = content.get("formation")
+    # userid = request.form['userid']
+    # spreadsheetid = request.form['spreadsheetid']
+    # formation = request.form['formation']
+    data, error = updateSheet(str(userid), spreadsheetid,formation)
+    # if data == "Success":
+    #     data = "https://docs.google.com/spreadsheets/d/" + spreadsheetid + "/edit#gid=0"
+    
+    # resp = Response(data, status=error)
+    return json_response("success")
 
 # Test receiving post request + need to process json
 @app.route('/test')
 def result():
     return request.form
+
+def json_response(payload, status=200):
+ return (json.dumps(payload), status, {'content-type': 'application/json'})
 
 if __name__ == '__main__':
     app.run()

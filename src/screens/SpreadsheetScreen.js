@@ -28,9 +28,11 @@ function SpreadsheetScreen(props) {
 
   function createSpreadsheet() {
     var user = firebase.auth().currentUser
-    axios.get(`http://localhost:5000/create_spreadsheet/` + user.uid)
+    var uid = 1
+    axios.get(`http://localhost:5000/create_spreadsheet/` + uid)
       .then(res => {
         var spreadsheetId = res
+        console.log(spreadsheetId)
         // push this spreadsheetid to firebase
       })
       .catch(err => {
@@ -51,7 +53,8 @@ function SpreadsheetScreen(props) {
   function updateSpreadsheet() {
     var user = firebase.auth().currentUser
     // replace with the spreadsheet of the current team
-    var spreadsheetId = "1234"
+    var uid = 1
+    var spreadsheetId = "1WfNvpe6Me8YEXejkjazcBUP6VZt9GEst4Q9uSKe2HjY"
     // get the JSON file from firebase, but for now, manual override
     // Structure is team -> song -> formation -> locations
     var team = {
@@ -100,6 +103,12 @@ function SpreadsheetScreen(props) {
         }
       }
     }
+
+    var request = {
+      "userid" : uid, 
+      "spreadsheetid" : spreadsheetId,
+      "formation" : team
+    }
     // axios.get(`http://localhost:5000/export/` + user.uid + `/` + spreadsheetId)
     //       .then(res => {
     //         console.log(res.status)
@@ -108,11 +117,14 @@ function SpreadsheetScreen(props) {
     //       	console.log(err)
     //       })
     console.log('sending');
-    axios.post(`http://localhost:5000/test`, team)
+    axios.post(`http://localhost:5000/export2`, request)
       .then(res => {
+        console.log(request)
+        console.log(res)
         console.log(res.status)
       })
       .catch(err => {
+        console.log(request)
         console.log(err)
       })
   }
