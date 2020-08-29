@@ -104,10 +104,12 @@ function SpreadsheetScreen(props) {
       }
     }
 
+    var dancers = ["A", "B"]
     var request = {
       "userid" : uid, 
       "spreadsheetid" : spreadsheetId,
-      "formation" : team
+      "formation" : team,
+      "dancers" : dancers,
     }
     // axios.get(`http://localhost:5000/export/` + user.uid + `/` + spreadsheetId)
     //       .then(res => {

@@ -73,10 +73,11 @@ def export2():
     userid = content.get("userid")
     spreadsheetid = content.get("spreadsheetid")
     formation = content.get("formation")
+    dancers = content.get("dancers")
     # userid = request.form['userid']
     # spreadsheetid = request.form['spreadsheetid']
     # formation = request.form['formation']
-    data, error = updateSheet(str(userid), spreadsheetid,formation)
+    data, error = updateSheet(str(userid), spreadsheetid, formation, dancers)
     # if data == "Success":
     #     data = "https://docs.google.com/spreadsheets/d/" + spreadsheetid + "/edit#gid=0"
     
