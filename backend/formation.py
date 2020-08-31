@@ -123,7 +123,19 @@ def clearWorksheet(sheetService, spreadsheetId):
 
 
 
-def addSongs(sheetService, spreadsheetId, songs):
+def addSongs(sheetService, spreadsheetId, songs, dancer_dictionary):
+
+  title_values = []
+  makeTitlePage(title_values, dancer_dictionary)
+  title_body = {
+    'values': title_values
+  }
+  value_input_option_title = 'RAW'
+  range_value_title = 'Sheet1' + '!A1:B' + str(len(title_values))
+  result = sheetService.values().update(spreadsheetId=spreadsheetId, range=range_value_title,
+                                 valueInputOption=value_input_option_title, body=title_body).execute()
+
+
   for song in songs:
 
        addSheet(sheetService, spreadsheetId, song.name)
@@ -139,6 +151,16 @@ def addSongs(sheetService, spreadsheetId, songs):
        range_value = song.name + '!A1:Z' + str(len(values))
        result = sheetService.values().update(spreadsheetId=spreadsheetId, range=range_value,
                                  valueInputOption=value_input_option, body=body).execute()
+
+
+def makeTitlePage (values, dancer_dictionary):
+
+  values.append(["Name", "Number"])
+  names = dancer_dictionary.keys()
+  numbers = []
+  for name in names:
+    values.append([name, dancer_dictionary[name]])
+
 
 
 def makeFormations(values, formations, num_rows, num_cols):
@@ -181,6 +203,36 @@ def addFormation(values, formation, offset):
   for dancer in formation.dancers:
       values[dancer.x + offset + 1][dancer.y + 1] = dancer.name
 
+
+def songStructure(formation_overall, dancers):
+
+  dancer_dictionary = {}
+  count = 1
+  for dancer in dancers:
+    dancer_dictionary[dancer] = count
+    count = count + 1
+
+  song_list = []
+
+  for song_name in formation_overall.keys():
+    song = formation_overall[song_name]
+    formation_list = []
+    for formation_name in song.keys():
+      formation = song[formation_name]
+      dancer_list = []
+      for dancer_name in formation.keys():
+        dancer = formation[dancer_name]
+        dancer_structure = Dancer(name=dancer_dictionary[dancer_name], x=dancer["x"], y=dancer["y"])
+        dancer_list.append(dancer_structure)
+      formation_structure = Formation(dancers=dancer_list)
+      formation_list.append(formation_structure)
+    song_structure = Song(name=song_name, num_rows=8, num_cols=8, formations=formation_list)
+    song_list.append(song_structure)
+        
+
+  return song_list, dancer_dictionary
+
+
 def getSheetService(userid):
     token_file = userid + 'token.pickle'
     creds = None
@@ -200,14 +252,18 @@ def getSheetService(userid):
 
     return service.spreadsheets()
 
-def updateSheet(userid, spreadsheetId):
+def updateSheet(userid, spreadsheetId, formation, dancers):
     #get the sheet serice
     sheetService = getSheetService(userid)
     if (type(sheetService) is str):
         return sheetService, 401
 
     clearWorksheet(sheetService, spreadsheetId)
-    addSongs(sheetService, spreadsheetId, [SONG_A, SONG_B, SONG_C])
+    print(formation)
+
+    songs, dancer_dictionary = songStructure(formation, dancers)
+    addSongs(sheetService, spreadsheetId, songs, dancer_dictionary)
+    print("done")
     return "Success", 200
 
 def makeSheet(userid):
