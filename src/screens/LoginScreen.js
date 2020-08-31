@@ -69,7 +69,7 @@ export default function SignIn(props) {
         await firebase
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/formations");
+        history.push("/home");
       } catch (error) {
         alert(error);
       }

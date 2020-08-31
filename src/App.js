@@ -16,6 +16,7 @@ import { AuthProvider } from "./constants/Auth";
 import PrivateRoute from "./constants/PrivateRoute";
 import Demo from './components/Drawer';
 import DashboardScreen from "./screens/DashboardScreen";
+import CreateTeamScreen from "./screens/CreateTeamScreen";
 
 export default function App() {
   return (
@@ -45,12 +46,13 @@ export default function App() {
             <Route path="/register" component={Register} />
             <PrivateRoute exact path="/spreadsheet" component={SpreadsheetScreen} />
             <PrivateRoute exact path="/formations" component={FormationScreen} />
+            <PrivateRoute exact path="/create" component={CreateTeamScreen} />
             <Route exact path='/unauthorized' component={Unauthorized} />
             <Route exact path='/forgot' component={Forgot} />
             <Route exact path='/drawer' component={Demo} />
-            <Route exact path='/home' component={DashboardScreen} />
+            <Route path="/login" component={Login} />
 
-            <Route path="/" component={Login} />
+            <PrivateRoute path="/" component={DashboardScreen} />
           </Switch>
         </Store>
       </Router>
