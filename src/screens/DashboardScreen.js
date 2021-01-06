@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import TempDrawer from '../components/Drawer';
 import { Button, Container, Grid } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import * as dom from 'react-router-dom';
 
 
 export default function DashboardScreen() {
@@ -20,13 +21,16 @@ export default function DashboardScreen() {
                     justify="center"
                     alignItems="center"
                     direction="column"
-                    style={{height: '80vh'}}
+                    style={{ height: '80vh' }}
                 >
                     <h1>Formatio</h1>
-                    <Button variant="contained" color="primary" style={{margin: '10px'}}>
-                        CREATE A NEW TEAM
+                    <dom.Link to="/create" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary" style={{ margin: '10px' }}>
+                            CREATE A NEW TEAM
                     </Button>
-                    <Button variant="contained" color="primary" style={{margin: '10px'}}>
+                    </dom.Link>
+
+                    <Button variant="contained" color="primary" style={{ margin: '10px' }}>
                         JOIN A TEAM
                     </Button>
 
