@@ -50,9 +50,9 @@ export default function App() {
             <Route exact path='/unauthorized' component={Unauthorized} />
             <Route exact path='/forgot' component={Forgot} />
             <Route exact path='/drawer' component={Demo} />
-            <Route path="/login" component={Login} />
+            <PrivateRoute path="/home" component={DashboardScreen} />
+            <Route path="/" component={Login} />
 
-            <PrivateRoute path="/" component={DashboardScreen} />
           </Switch>
         </Store>
       </Router>
