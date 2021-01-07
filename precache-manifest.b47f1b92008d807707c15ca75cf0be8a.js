@@ -1,0 +1,30 @@
+self.__precacheManifest = (self.__precacheManifest || []).concat([
+  {
+    "revision": "0869b65cd224fe47e790d89ea5c24a73",
+    "url": "/choreox/index.html"
+  },
+  {
+    "revision": "71aa358bad9e0b876f9b",
+    "url": "/choreox/static/css/main.3c5038c3.chunk.css"
+  },
+  {
+    "revision": "25300602ee22201df47f",
+    "url": "/choreox/static/js/2.66452db9.chunk.js"
+  },
+  {
+    "revision": "a25e47de3fb4bc6f21b4cd4bbbe79326",
+    "url": "/choreox/static/js/2.66452db9.chunk.js.LICENSE.txt"
+  },
+  {
+    "revision": "71aa358bad9e0b876f9b",
+    "url": "/choreox/static/js/main.c01c783b.chunk.js"
+  },
+  {
+    "revision": "0e0a7f2ce8df564c19c0",
+    "url": "/choreox/static/js/runtime-main.7b471f7b.js"
+  },
+  {
+    "revision": "aab9cdd0843771b8f2af315f269ddcfe",
+    "url": "/choreox/static/media/audio.aab9cdd0.mp3"
+  }
+]);

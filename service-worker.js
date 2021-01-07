@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/choreox/precache-manifest.bba58616649891a6c4360f4e739ec134.js"
+  "/choreox/precache-manifest.b47f1b92008d807707c15ca75cf0be8a.js"
 );
 
 self.addEventListener('message', (event) => {
