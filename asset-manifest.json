@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/choreox/static/css/main.3c5038c3.chunk.css",
-    "main.js": "/choreox/static/js/main.07a589fb.chunk.js",
-    "main.js.map": "/choreox/static/js/main.07a589fb.chunk.js.map",
-    "runtime-main.js": "/choreox/static/js/runtime-main.7b471f7b.js",
-    "runtime-main.js.map": "/choreox/static/js/runtime-main.7b471f7b.js.map",
-    "static/js/2.66452db9.chunk.js": "/choreox/static/js/2.66452db9.chunk.js",
-    "static/js/2.66452db9.chunk.js.map": "/choreox/static/js/2.66452db9.chunk.js.map",
-    "index.html": "/choreox/index.html",
-    "precache-manifest.0fa247b38f0f2e798b258e3d61c6adda.js": "/choreox/precache-manifest.0fa247b38f0f2e798b258e3d61c6adda.js",
-    "service-worker.js": "/choreox/service-worker.js",
-    "static/css/main.3c5038c3.chunk.css.map": "/choreox/static/css/main.3c5038c3.chunk.css.map",
-    "static/js/2.66452db9.chunk.js.LICENSE.txt": "/choreox/static/js/2.66452db9.chunk.js.LICENSE.txt",
-    "static/media/audio.mp3": "/choreox/static/media/audio.aab9cdd0.mp3"
+    "main.css": "/formatio/static/css/main.3c5038c3.chunk.css",
+    "main.js": "/formatio/static/js/main.a56e3ceb.chunk.js",
+    "main.js.map": "/formatio/static/js/main.a56e3ceb.chunk.js.map",
+    "runtime-main.js": "/formatio/static/js/runtime-main.86397500.js",
+    "runtime-main.js.map": "/formatio/static/js/runtime-main.86397500.js.map",
+    "static/js/2.80c83cb4.chunk.js": "/formatio/static/js/2.80c83cb4.chunk.js",
+    "static/js/2.80c83cb4.chunk.js.map": "/formatio/static/js/2.80c83cb4.chunk.js.map",
+    "index.html": "/formatio/index.html",
+    "precache-manifest.7f62d1643d500aeee0e1425353eeaf58.js": "/formatio/precache-manifest.7f62d1643d500aeee0e1425353eeaf58.js",
+    "service-worker.js": "/formatio/service-worker.js",
+    "static/css/main.3c5038c3.chunk.css.map": "/formatio/static/css/main.3c5038c3.chunk.css.map",
+    "static/js/2.80c83cb4.chunk.js.LICENSE.txt": "/formatio/static/js/2.80c83cb4.chunk.js.LICENSE.txt",
+    "static/media/audio.mp3": "/formatio/static/media/audio.aab9cdd0.mp3"
   },
   "entrypoints": [
-    "static/js/runtime-main.7b471f7b.js",
-    "static/js/2.66452db9.chunk.js",
+    "static/js/runtime-main.86397500.js",
+    "static/js/2.80c83cb4.chunk.js",
     "static/css/main.3c5038c3.chunk.css",
-    "static/js/main.07a589fb.chunk.js"
+    "static/js/main.a56e3ceb.chunk.js"
   ]
 }
