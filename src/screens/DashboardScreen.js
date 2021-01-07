@@ -4,7 +4,6 @@ import { Button, Container, Grid } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import * as dom from 'react-router-dom';
 
-
 export default function DashboardScreen() {
     const childRef = useRef();
 

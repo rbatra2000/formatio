@@ -11,4 +11,8 @@ const config = firebase.initializeApp({
     measurementId: "G-G85QRHSBW3"
 });
 
+const dbh = firebase.firestore();
+
+export {dbh}
+
 export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();

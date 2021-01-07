@@ -14,7 +14,6 @@ import * as dom from 'react-router-dom';
 import firebase from "../constants/firebase";
 import Link from '@material-ui/core/Link';
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">

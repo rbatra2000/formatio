@@ -4,9 +4,10 @@ import { Button, Container, Grid, TextField } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import * as dom from 'react-router-dom';
-// import firebase from "../constants/firebase";
+import {dbh} from "../constants/firebase";
+import fb from "../constants/firebase";
+import firebase from 'firebase/app';
 
-// const dbh = firebase.firestore();
 
 function checkIfExists(teamid) {
 
@@ -52,9 +53,38 @@ export default function CreateTeamScreen() {
         return result;
     }
 
-    // Update the database
+    /*
+        Creates a new team in the firebase
+    */
     function newTeam() {
-        
+        // Add a new document in collection "cities"
+        dbh.collection(teamId).doc("config").set({
+            name: name,
+            length: length,
+            depth: depth,
+            initialInvites: invitations,
+        });
+
+        // TODO: send invitations some sort of dynamic link with the teamId
+
+        var docRef = dbh.collection("users").doc(fb.auth().currentUser.uid);
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+        var user = fb.auth().currentUser.uid;
+
+        dbh.collection("users").doc(user).update({
+            teams: firebase.firestore.FieldValue.arrayUnion(teamId)
+        });
     }
 
     // Similar to componentDidMount and componentDidUpdate:
@@ -118,7 +148,6 @@ export default function CreateTeamScreen() {
                             id="standard-number"
                             label="Length"
                             type="number"
-                            autoFocus
                             value={length}
                             onChange={(e) => (setLength(e.target.value))}
                             InputLabelProps={{
@@ -136,7 +165,6 @@ export default function CreateTeamScreen() {
                             id="standard-number"
                             label="Depth"
                             type="number"
-                            autoFocus
                             value={depth}
                             onChange={(e) => (setDepth(e.target.value))}
                             InputLabelProps={{
@@ -146,7 +174,6 @@ export default function CreateTeamScreen() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            autoFocus
                             variant="filled"
                             fullWidth
                             id="standard-multiline-static"
