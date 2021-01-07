@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/choreox/static/css/main.3c5038c3.chunk.css",
-    "main.js": "/choreox/static/js/main.c01c783b.chunk.js",
-    "main.js.map": "/choreox/static/js/main.c01c783b.chunk.js.map",
+    "main.js": "/choreox/static/js/main.07a589fb.chunk.js",
+    "main.js.map": "/choreox/static/js/main.07a589fb.chunk.js.map",
     "runtime-main.js": "/choreox/static/js/runtime-main.7b471f7b.js",
     "runtime-main.js.map": "/choreox/static/js/runtime-main.7b471f7b.js.map",
     "static/js/2.66452db9.chunk.js": "/choreox/static/js/2.66452db9.chunk.js",
     "static/js/2.66452db9.chunk.js.map": "/choreox/static/js/2.66452db9.chunk.js.map",
     "index.html": "/choreox/index.html",
-    "precache-manifest.b47f1b92008d807707c15ca75cf0be8a.js": "/choreox/precache-manifest.b47f1b92008d807707c15ca75cf0be8a.js",
+    "precache-manifest.0fa247b38f0f2e798b258e3d61c6adda.js": "/choreox/precache-manifest.0fa247b38f0f2e798b258e3d61c6adda.js",
     "service-worker.js": "/choreox/service-worker.js",
     "static/css/main.3c5038c3.chunk.css.map": "/choreox/static/css/main.3c5038c3.chunk.css.map",
     "static/js/2.66452db9.chunk.js.LICENSE.txt": "/choreox/static/js/2.66452db9.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.7b471f7b.js",
     "static/js/2.66452db9.chunk.js",
     "static/css/main.3c5038c3.chunk.css",
-    "static/js/main.c01c783b.chunk.js"
+    "static/js/main.07a589fb.chunk.js"
   ]
 }

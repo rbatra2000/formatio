@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0869b65cd224fe47e790d89ea5c24a73",
+    "revision": "f8c5d968c2a0c851861501b2f60f264a",
     "url": "/choreox/index.html"
   },
   {
-    "revision": "71aa358bad9e0b876f9b",
+    "revision": "c1a8af065559f37dda1e",
     "url": "/choreox/static/css/main.3c5038c3.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/choreox/static/js/2.66452db9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "71aa358bad9e0b876f9b",
-    "url": "/choreox/static/js/main.c01c783b.chunk.js"
+    "revision": "c1a8af065559f37dda1e",
+    "url": "/choreox/static/js/main.07a589fb.chunk.js"
   },
   {
     "revision": "0e0a7f2ce8df564c19c0",
