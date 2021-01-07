@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import * as firebase from 'firebase';
 import axios from 'axios';
 
-
-
 const StyledButton = styled(Button)`
     width: 100px;
     margin: 10px;
