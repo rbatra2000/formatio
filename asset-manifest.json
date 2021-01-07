@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/formatio/static/css/main.3c5038c3.chunk.css",
-    "main.js": "/formatio/static/js/main.a56e3ceb.chunk.js",
-    "main.js.map": "/formatio/static/js/main.a56e3ceb.chunk.js.map",
+    "main.js": "/formatio/static/js/main.93434ab6.chunk.js",
+    "main.js.map": "/formatio/static/js/main.93434ab6.chunk.js.map",
     "runtime-main.js": "/formatio/static/js/runtime-main.86397500.js",
     "runtime-main.js.map": "/formatio/static/js/runtime-main.86397500.js.map",
     "static/js/2.80c83cb4.chunk.js": "/formatio/static/js/2.80c83cb4.chunk.js",
     "static/js/2.80c83cb4.chunk.js.map": "/formatio/static/js/2.80c83cb4.chunk.js.map",
     "index.html": "/formatio/index.html",
-    "precache-manifest.7f62d1643d500aeee0e1425353eeaf58.js": "/formatio/precache-manifest.7f62d1643d500aeee0e1425353eeaf58.js",
+    "precache-manifest.aa53cc2f26920324deb95021288baf96.js": "/formatio/precache-manifest.aa53cc2f26920324deb95021288baf96.js",
     "service-worker.js": "/formatio/service-worker.js",
     "static/css/main.3c5038c3.chunk.css.map": "/formatio/static/css/main.3c5038c3.chunk.css.map",
     "static/js/2.80c83cb4.chunk.js.LICENSE.txt": "/formatio/static/js/2.80c83cb4.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.86397500.js",
     "static/js/2.80c83cb4.chunk.js",
     "static/css/main.3c5038c3.chunk.css",
-    "static/js/main.a56e3ceb.chunk.js"
+    "static/js/main.93434ab6.chunk.js"
   ]
 }
