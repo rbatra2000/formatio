@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,9 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import * as firebase from 'firebase';
+import firebase from "../constants/firebase";
 import axios from 'axios';
-
+import {dbh} from "../constants/firebase";
 
 // const express = require('express')
 // const {spawn} = require('child_process')
@@ -61,46 +61,49 @@ export default function SignUp(props) {
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
-      const { firstName, lastName, email, password, confirmPassword } = event.target.elements;
-      if (confirmPassword != password) {
-        try {
-          await firebase
-            .auth()
-            .createUserWithEmailAndPassword(email.value, password.value);
+      const { firstName, lastName, email, password } = event.target.elements;
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email.value, password.value);
 
-          var user = firebase.auth().currentUser;
+        var user = firebase.auth().currentUser;
 
-          // @ritik change this userid variable
-          let userid = user.uid
+        dbh.collection("users").doc(user.uid).set({
+          userEmail: user.email,
+          firstName: firstName.value,
+          lastName: lastName.value,
+          teams: []
+        });
 
-          axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
-            .then(res => {
-              console.log(res.data)
-            })
+        let userid = user.uid
 
-          // user.updateProfile({
-          //   displayName: name,
-          // }).then(function () {
-          //   // Update successful.
-          //   // This is for any database updates
-          //   const dbh = firebase.firestore();
-          //   dbh.collection("users").doc(user.uid).set({
-          //     avatar: 1,
-          //   });
-          //   // Any UI updates
-          //   setLog("SUCCESS!1!")
-          // }).catch(function (error) {
-          //   // An error happened. Rip hope for the best
-          //   setLog(error);
-          // });
+        axios.get(`http://127.0.0.1:5000/register/userid=` + userid)
+          .then(res => {
+            console.log(res.data)
+          })
 
-          history.push("/formations");
-        } catch (error) {
-          alert(error);
-        }
-      }
-      else {
-        alert("Passwords do not match");
+
+
+        // user.updateProfile({
+        //   displayName: name,
+        // }).then(function () {
+        //   // Update successful.
+        //   // This is for any database updates
+        //   const dbh = firebase.firestore();
+        //   dbh.collection("users").doc(user.uid).set({
+        //     avatar: 1,
+        //   });
+        //   // Any UI updates
+        //   setLog("SUCCESS!1!")
+        // }).catch(function (error) {
+        //   // An error happened. Rip hope for the best
+        //   setLog(error);
+        // });
+
+        history.push("/home");
+      } catch (error) {
+        alert(error);
       }
     },
     [history]
@@ -116,7 +119,7 @@ export default function SignUp(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSignUp}>
+        <form className={classes.form} onSubmit={handleSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -161,18 +164,6 @@ export default function SignUp(props) {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
                 autoComplete="current-password"
               />
             </Grid>
