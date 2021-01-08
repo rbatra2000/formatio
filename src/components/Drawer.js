@@ -30,6 +30,8 @@ const TempDrawer = forwardRef((props, ref) => {
     const classes = useStyles();
     const [status, setStatus] = useState(false);
     const [teams, setTeams] = useState([]);
+    const [teamIds, setTeamIds] = useState([]);
+
 
     useImperativeHandle(ref, () => ({
         toggle() {
@@ -38,14 +40,15 @@ const TempDrawer = forwardRef((props, ref) => {
     }));
 
     const toggleDrawer = () => {
-        updateTeams();
         setStatus(!status);
     };
 
     useEffect(() => {
-        // TODO: Hacky but decreases latency
-        updateTeams();
-    }, []);
+        // TODO: Hacky and still doesn't work exactly
+        if (!status) {
+            updateTeams();
+        }
+    }, [status]);
 
     const signout = () => {
         firebase.auth().signOut().then(() => {
@@ -56,19 +59,23 @@ const TempDrawer = forwardRef((props, ref) => {
         });
     }
 
-    const updateTeams = () => {
-        var docRef = dbh.collection("users").doc(firebase.auth().currentUser.uid);
 
-        docRef.get().then(function (doc) {
-            if (doc.exists) {
-                setTeams(doc.data()["teams"])
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch(function (error) {
-            console.log("Error getting document:", error);
-        });
+    const updateTeams = () => {
+        if (firebase.auth().currentUser) {
+            var docRef = dbh.collection("users").doc(firebase.auth().currentUser.uid);
+            var ids;
+            docRef.get().then(function (doc) {
+                ids = doc.data()["teams"];
+                setTeamIds(ids);
+                var names = [];
+                for (var i = 0; i < ids.length; i++) {
+                    dbh.collection(ids[i]).doc("config").get().then(function (doc) {
+                        names.push(doc.data()["name"]);
+                    })
+                }
+                setTeams(names);
+            })
+        }
     }
 
     const list = () => (
@@ -81,16 +88,26 @@ const TempDrawer = forwardRef((props, ref) => {
             <List>
                 {
                     teams.map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
+                        <Link
+                            to={{
+                                pathname: "/team",
+                                details: {
+                                    name: text,
+                                    teamId: teamIds[index]
+                                }
+                            }}
+                            key={text}
+                            className={classes.link}>
+                            <ListItem button>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        </Link>
                     ))}
             </List>
             <Divider />
             <List>
                 <Link
-                    to="/register"
+                    to="/login"
                     onClick={() => signout()}
                     className={classes.link}>
                     <ListItem button key={"Logout"}>

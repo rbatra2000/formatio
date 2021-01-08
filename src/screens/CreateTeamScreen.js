@@ -62,10 +62,9 @@ export default function CreateTeamScreen() {
             name: name,
             length: length,
             depth: depth,
-            initialInvites: invitations,
         });
 
-        // TODO: send invitations some sort of dynamic link with the teamId
+        // TODO: send invitations some sort of dynamic link with the teamId (invitations)
 
         var docRef = dbh.collection("users").doc(fb.auth().currentUser.uid);
 

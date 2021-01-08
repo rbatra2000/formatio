@@ -41,7 +41,6 @@ const Formations = forwardRef((props, ref) => {
     const [state, dispatch] = useContext(Context);
     const [data, setData] = useState(state.database);
 
-
     useImperativeHandle(ref, () => ({
         nextFormation() {
             if (state.formNum === data.length - 1) {

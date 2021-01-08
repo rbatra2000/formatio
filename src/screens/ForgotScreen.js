@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,6 +58,13 @@ export default function Forgot(props) {
   const classes = useStyles();
   const { history } = props;
 
+  useEffect(() => {
+    // TODO: Hacky but needed
+    if (firebase.auth().currentUser) {
+      history.push("/");
+    }
+  });
+
   const handleReset = useCallback(
     async event => {
       event.preventDefault();
@@ -66,6 +73,7 @@ export default function Forgot(props) {
         await firebase
           .auth()
           .sendPasswordResetEmail(email.value);
+        alert("Reset Email Sent!")
         history.push("/login");
       } catch (error) {
         alert(error);

@@ -17,6 +17,8 @@ import PrivateRoute from "./constants/PrivateRoute";
 import Demo from './components/Drawer';
 import DashboardScreen from "./screens/DashboardScreen";
 import CreateTeamScreen from "./screens/CreateTeamScreen";
+import TeamHomeScreen from "./screens/TeamHomePage";
+
 
 export default function App() {
   return (
@@ -49,7 +51,8 @@ export default function App() {
             <PrivateRoute exact path="/create" component={CreateTeamScreen} />
             <Route exact path='/unauthorized' component={Unauthorized} />
             <Route exact path='/forgot' component={Forgot} />
-            <Route exact path='/drawer' component={Demo} />
+            <PrivateRoute exact path='/drawer' component={Demo} />
+            <PrivateRoute path="/team" component={TeamHomeScreen} />
             <Route path="/login" component={Login} />
 
             <PrivateRoute path="/" component={DashboardScreen} />

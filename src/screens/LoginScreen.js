@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -68,13 +68,21 @@ export default function SignIn(props) {
         await firebase
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/home");
+        history.push("/");
       } catch (error) {
         alert(error);
       }
     },
     [history]
   );
+
+  useEffect(() => {
+    // TODO: Hacky but needed
+    if (firebase.auth().currentUser) {
+      history.push("/");
+    }
+  });
+
 
   return (
     <Container component="main" maxWidth="xs">

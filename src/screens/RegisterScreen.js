@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,6 +58,13 @@ export default function SignUp(props) {
   const classes = useStyles();
   const { history } = props;
 
+  useEffect(() => {
+    // TODO: Hacky but needed
+    if (firebase.auth().currentUser) {
+      history.push("/");
+    }
+  });
+
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
@@ -70,7 +77,6 @@ export default function SignUp(props) {
         var user = firebase.auth().currentUser;
 
         dbh.collection("users").doc(user.uid).set({
-          userEmail: user.email,
           firstName: firstName.value,
           lastName: lastName.value,
           teams: []
@@ -101,7 +107,7 @@ export default function SignUp(props) {
         //   setLog(error);
         // });
 
-        history.push("/home");
+        history.push("/");
       } catch (error) {
         alert(error);
       }
