@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Link
@@ -18,7 +18,6 @@ import Demo from './components/Drawer';
 import DashboardScreen from "./screens/DashboardScreen";
 import CreateTeamScreen from "./screens/CreateTeamScreen";
 import TeamHomeScreen from "./screens/TeamHomePage";
-
 
 export default function App() {
   return (
