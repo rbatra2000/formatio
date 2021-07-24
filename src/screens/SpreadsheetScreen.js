@@ -23,10 +23,9 @@ if (!firebase.apps.length) {
 }
 
 function SpreadsheetScreen(props) {
-
   function createSpreadsheet() {
     var user = firebase.auth().currentUser
-    var uid = 1
+    var uid = user.uid
     axios.get(`http://localhost:5000/create_spreadsheet/` + uid)
       .then(res => {
         var spreadsheetId = res
@@ -51,8 +50,8 @@ function SpreadsheetScreen(props) {
   function updateSpreadsheet() {
     var user = firebase.auth().currentUser
     // replace with the spreadsheet of the current team
-    var uid = 1
-    var spreadsheetId = "1WfNvpe6Me8YEXejkjazcBUP6VZt9GEst4Q9uSKe2HjY"
+    var uid = user.uid
+    var spreadsheetId = "1XHPP2RcDzI5V_8W3XHRudsopSoeMfyjUGMdVWGKbO2s"
     // get the JSON file from firebase, but for now, manual override
     // Structure is team -> song -> formation -> locations
     var team = {
