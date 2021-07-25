@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Button } from '@material-ui/core';
 import styled from 'styled-components';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import axios from 'axios';
 
 const StyledButton = styled(Button)`
