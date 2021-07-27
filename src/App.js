@@ -18,6 +18,7 @@ import Demo from './components/Drawer';
 import DashboardScreen from "./screens/DashboardScreen";
 import CreateTeamScreen from "./screens/CreateTeamScreen";
 import TeamHomeScreen from "./screens/TeamHomePage";
+import LandingScreen from "./screens/LandingScreen";
 
 export default function App() {
   return (
@@ -53,8 +54,9 @@ export default function App() {
             <PrivateRoute exact path='/drawer' component={Demo} />
             <PrivateRoute path="/team" component={TeamHomeScreen} />
             <Route path="/login" component={Login} />
+            <Route path="/" component={LandingScreen} />
 
-            <PrivateRoute path="/" component={DashboardScreen} />
+            <PrivateRoute path="/dashboard" component={DashboardScreen} />
           </Switch>
         </Store>
       </Router>
