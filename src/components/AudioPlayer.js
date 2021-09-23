@@ -10,7 +10,6 @@ const AudioPlayer = forwardRef((props, ref) => {
     const [state, dispatch] = useContext(Context);
     const [loading, setLoading] = useState(true);
 
-
     useImperativeHandle(ref, () => ({
         // On mac you can use the play button on keyboard which messes up the state for the button
         playAudio() {
@@ -33,13 +32,14 @@ const AudioPlayer = forwardRef((props, ref) => {
     // idk about this
     let binarySearch = function (arr, x, start, end) {
 
-        // Base Condition 
-        if (end - start <= 1) {
-            return start;
-        }
 
         if (x >= arr[end]) {
             return end;
+        }
+
+        // Base Condition 
+        if (end - start <= 1) {
+            return start;
         }
 
         // Find the middle index 
@@ -61,6 +61,7 @@ const AudioPlayer = forwardRef((props, ref) => {
 
     function timeListener(time) {
         const newForm = binarySearch(state.starts, time, 0, state.starts.length - 1);
+        console.log(newForm);
         // Ideally I want to only do this when its different from the previous formation
         dispatch({ type: 'SET_FORMATION', num: newForm });
     }
@@ -96,7 +97,6 @@ const AudioPlayer = forwardRef((props, ref) => {
             // Add non-editable point, with a Red color
             initialPoints.push({ time: state.starts[i], labelText: ("Formation #" + i), color: "#FF0000" });
         }
-
 
         const options = {
             containers: {

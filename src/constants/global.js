@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from "react";
-import {db, starts} from './testdb';
+import { db, starts } from './testdb';
 import lodash from 'lodash';
 
 const Reducer = (state, action) => {
@@ -26,22 +26,29 @@ const Reducer = (state, action) => {
             };
         case 'ADD_FORMATION':
             var newFormation = lodash.cloneDeep(state.database[state.formNum]);
-            state.database.splice(state.formNum+1, 0, newFormation);
-            state.starts.splice(state.formNum+1, 0, action.time);
+            state.database.splice(state.formNum + 1, 0, newFormation);
+            state.starts.splice(state.formNum + 1, 0, action.time);
 
             return {
                 ...state,
                 formNum: state.formNum + 1,
             };
+        case 'UPDATE_DB':
+            return {
+                ...state,
+                database: action.data
+            }
         default:
             return state;
     }
 };
 
+const testStarts = [0, 5];
+
 const initialState = {
     formNum: 0,
-    database: db,
-    starts: starts,
+    database: null,
+    starts: testStarts,
     error: null
 };
 

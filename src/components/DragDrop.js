@@ -4,6 +4,7 @@ import DragBall from './DragBall'
 import { R_INC, C_INC, GRIDR_INC, GRIDC_INC } from '../constants/shared';
 import { Grid, Cell } from "styled-css-grid";
 import { Context } from '../constants/global';
+import styled from 'styled-components';
 
 
 // NOTE: Pretty much set just need to be able to transition from formation to formation
@@ -37,13 +38,25 @@ const createGrid = (height) => {
     return grid;
 }
 
+const Loader = styled.div`
+    border: 16px solid #ffffff; 
+    border-top: 16px solid #000000;
+    border-radius: 50%;
+    margin: auto;
+    margin-top: 40vh;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+`;
+
 const Formations = forwardRef((props, ref) => {
     const [state, dispatch] = useContext(Context);
     const [data, setData] = useState(state.database);
+    const FORMATIONS = "formations";
 
     useImperativeHandle(ref, () => ({
         nextFormation() {
-            if (state.formNum === data.length - 1) {
+            if (state.formNum === data["order"].length - 1) {
                 dispatch({ type: 'RESET_FORMATION' });
             } else {
                 dispatch({ type: 'NEXT_FORMATION', });
@@ -52,7 +65,7 @@ const Formations = forwardRef((props, ref) => {
 
         prevFormation() {
             if (state.formNum === 0) {
-                dispatch({ type: 'SET_FORMATION', num: data.length - 1 });
+                dispatch({ type: 'SET_FORMATION', num: data["order"].length - 1 });
             } else {
                 dispatch({ type: 'PREV_FORMATION' });
             }
@@ -111,17 +124,19 @@ const Formations = forwardRef((props, ref) => {
     // }, [loading]);
 
     useEffect(() => {
+        var formName = data["order"][state.formNum];
+        var formation = data[FORMATIONS][formName];
         for (var key in refs) {
-            var dict = data[state.formNum];
-            refs[key].move(dict["dancers"][key].x, dict["dancers"][key].y, dict.duration);
-            refs[key].changeColor(dict["dancers"][key].color);
+            refs[key].move(formation[key].x, formation[key].y, 1000);
+            // refs[key].changeColor(dict["dancers"][key].color); // TODO add changing colors
         }
     }, [state.formNum]);
 
     function changeLocation(form, dancer, x, y) {
         var list = data;
-        list[form]["dancers"][dancer].x = x;
-        list[form]["dancers"][dancer].y = y;
+        var formName = data["order"][form];
+        list[FORMATIONS][formName][dancer].x = x;
+        list[FORMATIONS][formName][dancer].y = y;
         setData(list);
         // setData([... ])
         // console.log(form);
@@ -129,9 +144,13 @@ const Formations = forwardRef((props, ref) => {
     }
 
     var elements = []
-    for (const [k, val] of Object.entries(data[state.formNum]["dancers"])) {
+    // todo idk what to do here
+
+    const formName = data["order"][state.formNum];
+    console.log(data[FORMATIONS]);
+    for (const [k, val] of Object.entries(data[FORMATIONS][formName])) {
         elements.push(<DragBall handler={changeLocation} x={val.x * GRIDC_INC} y={val.y * GRIDR_INC}
-            name={k} color={val.color} key={k} ref={(ref) => refs[k] = ref} />)
+            name={k} color={"red"} key={k} ref={(ref) => refs[k] = ref} />)
     }
 
     return (
