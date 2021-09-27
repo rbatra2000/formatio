@@ -57,9 +57,10 @@ export default function CreateTeamScreen() {
         Creates a new team in the firebase
     */
     function newTeam() {
-        // Add a new document in collection "cities"
         dbh.collection(teamId).doc("config").set({
             name: name,
+            order: [],
+            spreadsheetID: "",
             length: length,
             depth: depth,
         });

@@ -3,28 +3,6 @@ import { StyleSheet, View, Text, PanResponder, Animated, Easing } from "react-na
 import { GRID_WIDTH, CIRCLE_RADIUS, GRID_HEIGHT, GRIDR_INC, GRIDC_INC } from '../constants/shared';
 import { Context } from '../constants/global';
 
-// NOTE: Pretty much set just need to be able to transition from formation to formation
-// Need to clean up and convert to pure component
-// import * as firebase from 'firebase'
-// import 'firebase/firestore';
-
-
-// //NOTE: Be prepared to protect against empty strings as name
-// if (!firebase.apps.length) {
-//     firebase.initializeApp({
-//         apiKey: "AIzaSyCP7f-0gM04PNKyg_61zNHrEcoGuv5csww",
-//         authDomain: "choreox.firebaseapp.com",
-//         databaseURL: "https://choreox.firebaseio.com",
-//         projectId: "choreox",
-//         storageBucket: "choreox.appspot.com",
-//         messagingSenderId: "282857958796",
-//         appId: "1:282857958796:web:a4823f4d0f62548ee9baa9",
-//         measurementId: "G-G85QRHSBW3"
-//     });
-// }
-// const dbh = firebase.firestore();
-
-
 class DragBall extends Component {
 
     constructor(props) {
@@ -48,7 +26,6 @@ class DragBall extends Component {
         this.position = { x: props.x, y: props.y }
         this.state.pan.addListener((value) => this.position = value);
         this.coord = {x: props.x, y: props.y};
-
 
         // Weird bug where if u "flick" the circle (ur finger never leaves the box) the circle goes flying but the coordinates don't change? not sure how to fix
         this.panResponder = PanResponder.create({
@@ -85,7 +62,6 @@ class DragBall extends Component {
 
             },
 
-
             onPanResponderRelease: (e, gesture) => {
 
                 // Flatten the offset to avoid erratic behavior
@@ -99,7 +75,7 @@ class DragBall extends Component {
 
                     Animated.spring(this.state.pan, {
                         toValue: { x: 0, y: 0 },
-                        friction: 4,
+                        friction: 10,
                     }).start();
                     this.coord = {x: 0, y: 0};
                     this.setState({

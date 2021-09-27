@@ -10,6 +10,8 @@ const AudioPlayer = forwardRef((props, ref) => {
     const [state, dispatch] = useContext(Context);
     const [loading, setLoading] = useState(true);
 
+    const TIMES = "times";
+    const ORDER = "order";
 
     useImperativeHandle(ref, () => ({
         // On mac you can use the play button on keyboard which messes up the state for the button
@@ -21,25 +23,24 @@ const AudioPlayer = forwardRef((props, ref) => {
             instance.player.pause();
         },
 
-        dropPoint() {
+        dropPoint(name, speed) {
             // need to add id to each of these points
             // Add additional functionality to be able to move formations around as well
-            instance.points.add({ time: instance.player.getCurrentTime(), labelText: 'Test point', color: 'black' });
+            instance.points.add({ time: instance.player.getCurrentTime(), labelText: name, color: 'black' });
             // setPoints([...points, instance.player.getCurrentTime()]);
-            dispatch({ type: 'ADD_FORMATION', time: instance.player.getCurrentTime() });
+            dispatch({ type: 'ADD_FORMATION', time: instance.player.getCurrentTime(), name: name, speed: speed });
         }
     }));
 
     // idk about this
     let binarySearch = function (arr, x, start, end) {
+        if (x >= arr[end]) {
+            return end;
+        }
 
         // Base Condition 
         if (end - start <= 1) {
             return start;
-        }
-
-        if (x >= arr[end]) {
-            return end;
         }
 
         // Find the middle index 
@@ -60,7 +61,9 @@ const AudioPlayer = forwardRef((props, ref) => {
     }
 
     function timeListener(time) {
-        const newForm = binarySearch(state.starts, time, 0, state.starts.length - 1);
+        const times = state.database[TIMES];
+        const newForm = binarySearch(times, time, 0, times.length - 1);
+        // console.log(newForm);
         // Ideally I want to only do this when its different from the previous formation
         dispatch({ type: 'SET_FORMATION', num: newForm });
     }
@@ -92,11 +95,11 @@ const AudioPlayer = forwardRef((props, ref) => {
         const audioContext = new AudioContext();
 
         var initialPoints = [];
-        for (var i = 0; i < state.starts.length; i++) {
+        const starts = state.database[TIMES];
+        for (var i = 0; i < starts.length; i++) {
             // Add non-editable point, with a Red color
-            initialPoints.push({ time: state.starts[i], labelText: ("Formation #" + i), color: "#FF0000" });
+            initialPoints.push({ time: starts[i], labelText: state.database[ORDER][i], color: "#FF0000" });
         }
-
 
         const options = {
             containers: {
@@ -135,7 +138,6 @@ const AudioPlayer = forwardRef((props, ref) => {
             <audio>
                 <source src={sound} />
             </audio>
-            {state.starts.toString()}
             <br /><br />
         </div>
     )

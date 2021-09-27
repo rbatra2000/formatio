@@ -63,7 +63,7 @@ export default function SignIn(props) {
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
-      const { email, password } = event.target.elements;
+      const { email, password } = event.target.elements; // TODO: Not really secure
       try {
         await firebase
           .auth()

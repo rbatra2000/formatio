@@ -53,7 +53,6 @@ export default function App() {
             <PrivateRoute exact path='/drawer' component={Demo} />
             <PrivateRoute path="/team" component={TeamHomeScreen} />
             <Route path="/login" component={Login} />
-
             <PrivateRoute path="/" component={DashboardScreen} />
           </Switch>
         </Store>
