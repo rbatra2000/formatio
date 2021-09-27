@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import AudioPlayer from '../components/AudioPlayer';
 import { Context } from '../constants/global';
 import { dbh } from "../constants/firebase";
+import FormationDialog from '../components/FormationDialog';
 
 // In future, maybe remove this if not necessary?
 
@@ -38,36 +39,19 @@ const FormationsScreen = () => {
     const [state, dispatch] = useContext(Context);
     const dragRef = useRef(null);
     const audioRef = useRef(null);
+    const dialogRef = useRef(null);
 
     const [play, setPlay] = useState("Play");
     const [bpm, setBpm] = useState(0);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState({});
-    // var data = {};
 
-    // async function helper(teamid, song, formName) {
-    //     var savedForms = {}
-    //     const path = teamid + "/" + song + "/" + formName;
-    //     const forms = await dbh.collection(path).get();
-    //     forms.forEach(formation => {
-    //         savedForms[formation.id] = formation.data();
-    //     })
-    //     return savedForms;
-    // }
-
-    async function test() {
+    async function getFormationData() {
         var result = {};
         try {
             const snapshot = await dbh.collection("KUJ43").get();
             snapshot.forEach(song => {
-                // console.log(song.data());
                 result[song.id] = song.data();
-                // if (song.id != "config") {
-                //     result[song.id]["order"].forEach(formName => {
-                //         // helper("KUJ43", song.id, formName).then(form => {result[song.id][FORMATIONS][formName] = form;})
-                //         result[song.id][FORMATIONS]
-                //     })
-                // }
             });
         } catch (error) {
             alert(error)
@@ -76,22 +60,18 @@ const FormationsScreen = () => {
     }
 
     useEffect(() => {
-        test().then(res => {
+        getFormationData().then(res => {
             dispatch({ type: 'UPDATE_DB', data: res["WAP"] });
             setData(res["WAP"]);
             setLoading(false);
         })
     }, [])
 
-    // if (loading) {
-    //     return <Loader />
-    // }
-
     return (
         <div>
-            {loading ? <Loader /> : <DragDrop ref={dragRef} formation={data} />}
+            {loading ? <Loader /> : <><DragDrop ref={dragRef} formation={data} />
+            <FormationDialog ref={dialogRef} audioRef={audioRef}/>
             <ButtonContainer>
-                {bpm}
                 <hr />
                 <StyledButton variant="contained" color="secondary" onClick={() => {
                     dragRef.current.prevFormation();
@@ -108,16 +88,14 @@ const FormationsScreen = () => {
                         audioRef.current.pauseAudio();
                     }
                 }}>{play}</StyledButton>
+                <StyledButton variant="contained" color="secondary" onClick={() => dialogRef.current.handleClickOpen()}>New</StyledButton>
                 <StyledButton variant="contained" color="secondary" onClick={() => {
-                    audioRef.current.dropPoint();
-                }}>New</StyledButton>
-                {/* <StyledButton variant="contained" color="secondary" onClick={() => {
-                    audioRef.current.dropPoint();
-                }}>Drop</StyledButton> */}
+                    dispatch({ type: 'SAVE_DB', data: state.database});
+                }}>Save</StyledButton>
             </ButtonContainer>
             <div style={{ textAlign: 'center', margin: '10px', height: '450px' }}>
                 <AudioPlayer ref={audioRef} />
-            </div>
+            </div></>}
 
         </div>
     )
