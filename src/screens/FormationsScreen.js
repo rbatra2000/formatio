@@ -42,33 +42,32 @@ const FormationsScreen = () => {
     const [play, setPlay] = useState("Play");
     const [bpm, setBpm] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState({});
+    // var data = {};
 
-    const FORMATIONS = "formations"
-
-    async function helper(teamid, song, formName) {
-        var savedForms = {}
-        const path = teamid + "/" + song + "/" + formName;
-        const forms = await dbh.collection(path).get();
-        forms.forEach(formation => {
-            savedForms[formation.id] = formation.data();
-        })
-        return savedForms;
-    }
+    // async function helper(teamid, song, formName) {
+    //     var savedForms = {}
+    //     const path = teamid + "/" + song + "/" + formName;
+    //     const forms = await dbh.collection(path).get();
+    //     forms.forEach(formation => {
+    //         savedForms[formation.id] = formation.data();
+    //     })
+    //     return savedForms;
+    // }
 
     async function test() {
-        var result = {}
+        var result = {};
         try {
             const snapshot = await dbh.collection("KUJ43").get();
             snapshot.forEach(song => {
-                // console.log(doc.id, '=>', doc.data());
+                // console.log(song.data());
                 result[song.id] = song.data();
-                result[song.id][FORMATIONS] = {};
-                if (song.id != "config") {
-                    result[song.id]["order"].forEach(formName => {
-                        console.log(formName)
-                        helper("KUJ43", song.id, formName).then(form => {result[song.id][FORMATIONS][formName] = form; console.log(form);})
-                    })
-                }
+                // if (song.id != "config") {
+                //     result[song.id]["order"].forEach(formName => {
+                //         // helper("KUJ43", song.id, formName).then(form => {result[song.id][FORMATIONS][formName] = form;})
+                //         result[song.id][FORMATIONS]
+                //     })
+                // }
             });
         } catch (error) {
             alert(error)
@@ -76,18 +75,21 @@ const FormationsScreen = () => {
         return result;
     }
 
-    test().then(result => {
-        dispatch({ type: 'UPDATE_DB', data: result["WAP"] });
-        setLoading(false);
-    })
+    useEffect(() => {
+        test().then(res => {
+            dispatch({ type: 'UPDATE_DB', data: res["WAP"] });
+            setData(res["WAP"]);
+            setLoading(false);
+        })
+    }, [])
 
-    if (loading) {
-        return <Loader />
-    }
+    // if (loading) {
+    //     return <Loader />
+    // }
 
     return (
         <div>
-            <DragDrop ref={dragRef}/>
+            {loading ? <Loader /> : <DragDrop ref={dragRef} formation={data} />}
             <ButtonContainer>
                 {bpm}
                 <hr />

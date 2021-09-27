@@ -99,7 +99,7 @@ class DragBall extends Component {
 
                     Animated.spring(this.state.pan, {
                         toValue: { x: 0, y: 0 },
-                        friction: 4,
+                        friction: 10,
                     }).start();
                     this.coord = {x: 0, y: 0};
                     this.setState({

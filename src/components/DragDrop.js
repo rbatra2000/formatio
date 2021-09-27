@@ -51,29 +51,34 @@ const Loader = styled.div`
 
 const Formations = forwardRef((props, ref) => {
     const [state, dispatch] = useContext(Context);
-    const [data, setData] = useState(state.database);
+    const [data, setData] = useState(props.formation);
+    const [elements, setElements] = useState([]);
+    const [loading, setLoading] = useState(true);
+    // const [refs, setRefs] = useState({});
     const FORMATIONS = "formations";
+    const refs = {};
 
     useImperativeHandle(ref, () => ({
         nextFormation() {
             if (state.formNum === data["order"].length - 1) {
                 dispatch({ type: 'RESET_FORMATION' });
+                // setFormNum(0);
             } else {
                 dispatch({ type: 'NEXT_FORMATION', });
+                // setFormNum(formNum+1);
             }
         },
 
         prevFormation() {
             if (state.formNum === 0) {
                 dispatch({ type: 'SET_FORMATION', num: data["order"].length - 1 });
+                // setFormNum(data["order"].length - 1)
             } else {
                 dispatch({ type: 'PREV_FORMATION' });
+                // setFormNum(formNum-1);
             }
         }
     }));
-
-
-    const refs = {};
 
     // const addNew = (name) => {
     //     setData([...data, { "name": name, "x": 0, "y": 0 }]);
@@ -126,8 +131,11 @@ const Formations = forwardRef((props, ref) => {
     useEffect(() => {
         var formName = data["order"][state.formNum];
         var formation = data[FORMATIONS][formName];
+        console.log(formation);
+        console.log(refs);
         for (var key in refs) {
-            refs[key].move(formation[key].x, formation[key].y, 1000);
+            console.log(key);
+            refs[key].move(formation[key][0], formation[key][1], 300);
             // refs[key].changeColor(dict["dancers"][key].color); // TODO add changing colors
         }
     }, [state.formNum]);
@@ -135,22 +143,47 @@ const Formations = forwardRef((props, ref) => {
     function changeLocation(form, dancer, x, y) {
         var list = data;
         var formName = data["order"][form];
-        list[FORMATIONS][formName][dancer].x = x;
-        list[FORMATIONS][formName][dancer].y = y;
+        list[FORMATIONS][formName][dancer][0] = x;
+        list[FORMATIONS][formName][dancer][1] = y;
         setData(list);
         // setData([... ])
         // console.log(form);
         // dispatch({ type: 'CHANGE_FORMATION', f: form, d: dancer, xCoor: x, yCoor: y });
     }
 
-    var elements = []
-    // todo idk what to do here
+    // const formName = data["order"][state.formNum];
+    // var
+    // if (data[FORMATIONS][formName]) {
+    //     for (const [k, val] of Object.entries(data[FORMATIONS][formName])) {
+    //         elements.push(<DragBall handler={changeLocation} x={val.x * GRIDC_INC} y={val.y * GRIDR_INC}
+    //             name={k} color={"red"} key={k} ref={(ref) => refs[k] = ref} />)
+    //     }
+    // }
 
-    const formName = data["order"][state.formNum];
-    console.log(data[FORMATIONS]);
-    for (const [k, val] of Object.entries(data[FORMATIONS][formName])) {
-        elements.push(<DragBall handler={changeLocation} x={val.x * GRIDC_INC} y={val.y * GRIDR_INC}
-            name={k} color={"red"} key={k} ref={(ref) => refs[k] = ref} />)
+    // useEffect(() => {
+
+    // }, [])
+    
+    useEffect(() => {
+        if (state.database != null && loading) {
+            setData(state.database);
+            setLoading(false);
+        }
+    })
+
+    if (loading) {
+        return <View></View>
+    }
+
+
+    function getDragBalls() {
+        const formName = data["order"][state.formNum];
+        const elements = [];
+        for (const [key, val] of Object.entries(data[FORMATIONS][formName])) {
+            elements.push(<DragBall handler={changeLocation} x={val[0] * GRIDC_INC} y={val[1] * GRIDR_INC}
+                name={key} color={"red"} key={key} ref={(ref) => refs[key] = ref} />)
+        }
+        return elements;
     }
 
     return (
@@ -164,7 +197,7 @@ const Formations = forwardRef((props, ref) => {
 
                 <View>
                     {
-                        elements
+                        getDragBalls()
                     }
                 </View>
             </View>

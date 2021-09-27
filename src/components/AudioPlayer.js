@@ -61,7 +61,7 @@ const AudioPlayer = forwardRef((props, ref) => {
 
     function timeListener(time) {
         const newForm = binarySearch(state.starts, time, 0, state.starts.length - 1);
-        console.log(newForm);
+        // console.log(newForm);
         // Ideally I want to only do this when its different from the previous formation
         dispatch({ type: 'SET_FORMATION', num: newForm });
     }
